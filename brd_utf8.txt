@@ -1,0 +1,1096 @@
+BUSINESS REQUIREMENT DOCUMENT (BRD) Sistem Pendataan dan Monitoring Stok Obat Apotek Berbasis Web
+1. Ringkasan Eksekutif
+Dokumen Business Requirement Document (BRD) ini disusun sebagai acuan dalam proses analisis kebutuhan bisnis dan kebutuhan sistem untuk pengembangan Sistem Pendataan dan Monitoring Stok Obat Apotek Berbasis Web. Sistem ini dirancang untuk membantu kegiatan operasional apotek melalui pengelolaan data obat, pengelolaan kategori obat, data supplier, pencatatan obat masuk, transaksi penjualan, hingga penyusunan laporan secara terintegrasi. Dengan adanya sistem berbasis web, seluruh proses bisnis dapat dilakukan secara lebih cepat, akurat, dan terdokumentasi sehingga mampu meningkatkan kualitas pelayanan kepada pelanggan.
+Sistem yang dikembangkan tidak hanya berfungsi sebagai media pencatatan stok obat, tetapi juga sebagai sarana monitoring kondisi persediaan obat secara real-time. Informasi mengenai stok minimum, obat yang mendekati tanggal kedaluwarsa, serta riwayat transaksi dapat dipantau secara langsung oleh pengguna sesuai hak akses yang dimiliki. Selain itu, sistem menyediakan fitur dashboard yang menyajikan informasi operasional dalam bentuk ringkasan sehingga memudahkan pemilik apotek dalam melakukan pengambilan keputusan.
+Pengguna sistem terdiri dari Super Admin, Pemilik Apotek, dan Petugas Apotek yang memiliki hak akses berbeda sesuai dengan tanggung jawab masing-masing. Super Admin bertugas mengelola seluruh konfigurasi sistem dan data pengguna, sedangkan Pemilik Apotek memiliki hak untuk mengelola data master sekaligus melakukan monitoring operasional. Petugas Apotek difokuskan pada kegiatan operasional harian seperti pencatatan obat masuk, transaksi penjualan, serta pencetakan struk pembayaran.
+Sebagai pengembangan dari sistem inventaris konvensional, aplikasi ini juga menyediakan fitur unggah foto obat sehingga proses identifikasi produk menjadi lebih mudah dan mengurangi kesalahan pengambilan obat. Sistem juga mendukung unggah faktur pembelian obat sebagai arsip digital setiap transaksi obat masuk sehingga riwayat pembelian dapat ditelusuri kembali apabila diperlukan. Selain itu, tersedia fitur pengelolaan identitas apotek berupa logo, nama apotek, alamat, nomor telepon, dan informasi kontak yang akan ditampilkan pada dashboard, laporan, serta struk pembayaran.
+Untuk mendukung proses transaksi, sistem menyediakan metode pembayaran tunai maupun non-tunai melalui Midtrans Snap sehingga pelanggan memiliki fleksibilitas dalam melakukan pembayaran. Sistem juga mendukung pencetakan struk menggunakan printer thermal 58 mm dan penyimpanan seluruh riwayat transaksi ke dalam database. Dengan adanya sistem ini diharapkan proses operasional apotek menjadi lebih efektif, efisien, aman, dan terdokumentasi dengan baik sehingga mampu meningkatkan produktivitas serta kualitas pelayanan kepada pelanggan.
+2. Latar Belakang dan Justifikasi Bisnis
+2.1 Konteks
+Apotek merupakan salah satu fasilitas pelayanan kesehatan yang memiliki peran penting dalam menyediakan obat-obatan serta produk kesehatan kepada masyarakat. Dalam menjalankan kegiatan operasionalnya, apotek harus mampu mengelola persediaan obat, melakukan pencatatan obat masuk, melayani transaksi penjualan, serta menyusun laporan operasional secara tepat dan akurat. Seluruh proses tersebut memerlukan sistem informasi yang mampu mendukung pengelolaan data secara terstruktur agar pelayanan kepada pelanggan tetap optimal.
+Pada kenyataannya, masih terdapat apotek yang melakukan pencatatan stok obat menggunakan metode manual atau aplikasi yang memiliki fitur terbatas. Kondisi tersebut sering menyebabkan terjadinya kesalahan pencatatan stok, keterlambatan mengetahui obat yang hampir habis, serta kesulitan dalam melakukan monitoring obat yang mendekati tanggal kedaluwarsa. Selain itu, proses pencarian data obat maupun penyusunan laporan membutuhkan waktu yang relatif lama sehingga mengurangi efisiensi operasional.
+Perkembangan teknologi berbasis web memberikan peluang bagi apotek untuk melakukan digitalisasi seluruh proses bisnis secara terintegrasi. Data yang tersimpan secara terpusat memungkinkan setiap pengguna memperoleh informasi sesuai dengan hak akses yang dimiliki tanpa harus melakukan pencatatan berulang. Oleh karena itu, diperlukan suatu sistem informasi berbasis web yang mampu meningkatkan efisiensi operasional sekaligus menyediakan informasi yang akurat sebagai dasar pengambilan keputusan.
+
+
+2.2 Permasalahan
+Berdasarkan hasil analisis kebutuhan bisnis, terdapat beberapa permasalahan yang sering terjadi dalam kegiatan operasional apotek. Permasalahan tersebut tidak hanya berkaitan dengan pencatatan stok obat, tetapi juga mencakup pengelolaan transaksi, penyimpanan dokumen, serta proses monitoring yang masih dilakukan secara manual. Kondisi tersebut menyebabkan proses pelayanan menjadi kurang efektif dan meningkatkan risiko terjadinya kesalahan operasional.
+Beberapa permasalahan yang ditemukan antara lain:
+Pendataan stok obat masih dilakukan secara manual. 
+Sulit mengetahui stok obat yang hampir habis. 
+Sulit mengetahui obat yang mendekati tanggal kedaluwarsa. 
+Riwayat transaksi belum terdokumentasi dengan baik. 
+Penyusunan laporan masih membutuhkan waktu yang lama. 
+Pembayaran digital belum terintegrasi. 
+Belum tersedia arsip digital faktur pembelian obat. 
+Identitas apotek pada laporan dan struk masih dibuat secara manual. 
+Belum tersedia dokumentasi foto obat sehingga proses identifikasi produk kurang optimal. 
+Monitoring stok belum dilakukan secara real-time. 
+2.3 Solusi yang Diusulkan
+Untuk mengatasi berbagai permasalahan tersebut, diusulkan pembangunan Sistem Pendataan dan Monitoring Stok Obat Apotek Berbasis Web yang mampu mengintegrasikan seluruh proses bisnis dalam satu aplikasi. Sistem ini dirancang agar seluruh data operasional dapat tersimpan secara terpusat sehingga mudah diakses oleh pengguna sesuai dengan hak akses masing-masing. Dengan adanya integrasi tersebut, proses pengelolaan data menjadi lebih cepat, akurat, dan mudah dipantau.
+Sistem yang diusulkan menyediakan berbagai fitur utama yang mendukung kegiatan operasional apotek, antara lain:
+Manajemen pengguna. 
+Manajemen data obat. 
+Manajemen kategori obat. 
+Manajemen supplier. 
+Pendataan obat masuk. 
+Upload foto obat. 
+Upload faktur pembelian obat. 
+Manajemen identitas apotek (logo, nama, alamat, nomor telepon, email). 
+Monitoring stok obat. 
+Monitoring stok minimum. 
+Monitoring obat yang mendekati tanggal kedaluwarsa. 
+Dashboard operasional. 
+Transaksi penjualan. 
+Pembayaran tunai. 
+Pembayaran online menggunakan Midtrans Snap. 
+Cetak struk thermal 58 mm. 
+Laporan operasional. 
+Export PDF. 
+Export Excel. 
+Implementasi sistem ini diharapkan mampu memberikan berbagai manfaat bagi pihak apotek, baik dari sisi operasional maupun manajerial. Seluruh proses bisnis menjadi lebih terstruktur karena setiap aktivitas tercatat secara otomatis ke dalam database. Selain itu, dokumentasi digital berupa foto obat, faktur pembelian, dan identitas apotek akan meningkatkan profesionalisme sistem serta memudahkan proses audit di masa mendatang.
+Manfaat yang Diharapkan
+Mempermudah pengelolaan data obat. 
+Mempermudah pengelolaan kategori obat dan supplier. 
+Mempermudah monitoring stok obat secara real-time. 
+Mengurangi kesalahan pencatatan data. 
+Mempercepat proses transaksi penjualan. 
+Mempermudah penyusunan laporan operasional. 
+Mendukung pembayaran digital menggunakan Midtrans. 
+Menyediakan dokumentasi foto obat untuk memudahkan identifikasi produk. 
+Menyediakan arsip digital faktur pembelian obat. 
+Menampilkan identitas resmi apotek pada dashboard, laporan, dan struk pembayaran. 
+Meningkatkan efisiensi operasional serta kualitas pelayanan kepada pelanggan. 
+
+3. Tujuan Bisnis
+Pengembangan Sistem Pendataan dan Monitoring Stok Obat Apotek Berbasis Web bertujuan untuk meningkatkan efektivitas proses bisnis melalui pemanfaatan teknologi informasi yang terintegrasi. Sistem ini diharapkan mampu mengurangi proses pencatatan manual, mempercepat pelayanan kepada pelanggan, serta menyediakan informasi operasional secara real-time. Dengan demikian, pemilik apotek dapat melakukan pengawasan terhadap kondisi operasional dengan lebih mudah dan akurat.
+Selain mendukung kegiatan operasional harian, sistem juga dirancang untuk menyediakan dokumentasi digital yang lebih lengkap dibandingkan sistem inventaris konvensional. Keberadaan foto obat akan membantu proses identifikasi produk, sedangkan faktur pembelian yang tersimpan secara digital akan mempermudah proses audit dan pelacakan riwayat pembelian. Pengelolaan identitas apotek juga akan meningkatkan profesionalisme sistem melalui penggunaan logo resmi pada dashboard, laporan, dan struk pembayaran.
+Secara rinci, tujuan bisnis dari pengembangan sistem ini adalah sebagai berikut:
+Membangun sistem pendataan dan monitoring stok obat berbasis web. 
+Mempermudah pengelolaan data obat, kategori obat, dan supplier. 
+Mempermudah pencatatan obat masuk. 
+Mendukung dokumentasi digital melalui upload foto obat. 
+Menyediakan arsip digital faktur pembelian obat. 
+Mempermudah transaksi penjualan. 
+Mendukung pembayaran tunai maupun non-tunai. 
+Menyediakan informasi stok obat secara real-time. 
+Membantu pemilik apotek dalam melakukan monitoring operasional. 
+Menampilkan identitas resmi apotek pada sistem, laporan, dan struk pembayaran. 
+Meningkatkan efisiensi operasional dan kualitas pelayanan kepada pelanggan. 
+Mengurangi risiko kehilangan data melalui penyimpanan terpusat. 
+4. Ruang Lingkup
+4.1 Super Admin
+Super Admin merupakan pengguna dengan hak akses tertinggi yang bertanggung jawab terhadap pengelolaan seluruh sistem. Peran ini memastikan bahwa seluruh data master, data pengguna, serta konfigurasi sistem dapat dikelola dengan baik sehingga aplikasi dapat berjalan sesuai kebutuhan operasional apotek. Selain itu, Super Admin memiliki kewenangan untuk melakukan monitoring terhadap seluruh aktivitas yang terjadi di dalam sistem.
+Fitur yang dapat dilakukan oleh Super Admin meliputi:
+Login dan Logout. 
+CRUD Data Pengguna. 
+CRUD Data Obat. 
+CRUD Kategori Obat. 
+CRUD Data Supplier. 
+Upload, ubah, dan hapus foto obat. 
+Upload, ubah, dan hapus logo apotek. 
+Mengelola identitas apotek. 
+Mengatur stok minimum obat. 
+Input obat masuk. 
+Upload faktur pembelian obat. 
+Melakukan transaksi penjualan. 
+Monitoring stok obat. 
+Monitoring transaksi. 
+Monitoring pembayaran. 
+Monitoring aktivitas pengguna. 
+Melihat seluruh laporan. 
+Export laporan PDF. 
+Export laporan Excel. 
+
+4.2 Petugas Apotek/Kasir
+Petugas Apotek merupakan pengguna yang bertanggung jawab terhadap kegiatan operasional sehari-hari di apotek. Hak akses yang diberikan difokuskan pada proses pelayanan pelanggan, pencatatan obat masuk, serta transaksi penjualan tanpa diberikan kewenangan untuk mengubah data master. Pembatasan hak akses ini bertujuan untuk menjaga konsistensi data serta mengurangi risiko terjadinya perubahan data yang tidak sesuai dengan kebijakan pemilik apotek.
+Hak akses Petugas Apotek meliputi:
+Login dan Logout. 
+Melihat data obat. 
+Melihat kategori obat. 
+Melihat data supplier. 
+Melihat foto obat. 
+Input obat masuk. 
+Upload faktur pembelian obat. 
+Melakukan transaksi penjualan. 
+Mencetak struk thermal. 
+Melihat riwayat transaksi. 
+Melihat riwayat obat masuk. 
+Melihat dashboard operasional. 
+Petugas Apotek tidak memiliki hak Create, Update, maupun Delete terhadap data master, seperti data obat, kategori obat, supplier, maupun identitas apotek. Petugas hanya dapat melakukan upload faktur pembelian ketika menerima barang dari supplier sebagai bagian dari proses dokumentasi transaksi obat masuk.
+
+4.3 Pemilik Apotek
+Pemilik Apotek merupakan pengguna yang bertanggung jawab terhadap pengawasan seluruh kegiatan operasional apotek. Selain melakukan monitoring, Pemilik Apotek juga memiliki hak untuk membantu operasional harian ketika petugas tidak berada di tempat. Oleh karena itu, Pemilik Apotek diberikan hak akses yang hampir setara dengan Super Admin, namun tetap difokuskan pada kebutuhan operasional dan pengambilan keputusan bisnis.
+Hak akses Pemilik Apotek meliputi:
+Login dan Logout. 
+CRUD Data Obat. 
+CRUD Kategori Obat. 
+CRUD Data Supplier. 
+Upload, ubah, dan hapus foto obat. 
+Input obat masuk. 
+Upload faktur pembelian obat. 
+Mengelola identitas apotek. 
+Upload dan mengubah logo apotek. 
+Melakukan transaksi penjualan. 
+Mencetak struk thermal. 
+Melihat ringkasan penjualan. 
+Monitoring stok obat. 
+Monitoring stok minimum. 
+Monitoring obat hampir habis. 
+Monitoring obat mendekati tanggal kedaluwarsa. 
+Monitoring pendapatan. 
+Monitoring aktivitas operasional. 
+Melihat laporan penjualan. 
+Melihat laporan stok. 
+Melihat laporan obat masuk. 
+Melihat laporan metode pembayaran. 
+Melihat riwayat transaksi. 
+Export laporan PDF. 
+Export laporan Excel.
+
+4.4 Pengelolaan Data Obat
+Pengelolaan data obat merupakan salah satu fungsi utama dalam sistem karena seluruh proses operasional bergantung pada data obat yang tersimpan di dalam database. Data obat harus dikelola secara lengkap agar proses transaksi, monitoring stok, maupun penyusunan laporan dapat berjalan secara akurat. Oleh karena itu, sistem menyediakan fitur pengelolaan data obat yang terintegrasi dengan kategori obat, supplier, dan monitoring stok.
+Ruang lingkup pengelolaan data obat meliputi:
+CRUD Data Obat. 
+CRUD Kategori Obat. 
+CRUD Supplier. 
+Upload foto obat. 
+Penyimpanan foto obat menggunakan Laravel Storage. 
+Pendataan obat masuk. 
+Monitoring stok minimum. 
+Monitoring stok real-time. 
+Monitoring tanggal kedaluwarsa. 
+Pencarian obat berdasarkan nama maupun barcode. 
+Filter data berdasarkan kategori obat. 
+Menampilkan foto obat pada halaman daftar dan detail obat.
+
+4.5 Pengelolaan Obat Masuk
+Pengelolaan obat masuk digunakan untuk mencatat seluruh obat yang diterima dari supplier. Setiap transaksi obat masuk akan menambah jumlah stok secara otomatis sehingga data persediaan selalu sesuai dengan kondisi terbaru. Selain itu, sistem juga menyediakan dokumentasi digital berupa faktur pembelian sebagai arsip yang dapat digunakan untuk kebutuhan audit maupun pelacakan riwayat pembelian.
+Ruang lingkup pengelolaan obat masuk meliputi:
+Pendataan obat masuk. 
+Pemilihan supplier. 
+Input jumlah obat. 
+Penambahan stok otomatis. 
+Upload faktur pembelian. 
+Penyimpanan dokumen faktur. 
+Riwayat obat masuk. 
+Pencarian riwayat obat masuk. 
+Filter berdasarkan supplier. 
+Filter berdasarkan tanggal. 
+Monitoring histori pembelian.
+4.6 Pengelolaan Transaksi Penjualan
+Pengelolaan transaksi penjualan digunakan untuk mendukung proses pelayanan kepada pelanggan secara cepat dan akurat. Sistem akan melakukan perhitungan total pembayaran secara otomatis berdasarkan jumlah obat yang dibeli, kemudian mengurangi stok setelah transaksi dinyatakan berhasil. Seluruh transaksi akan tersimpan ke dalam database sehingga dapat digunakan sebagai bahan penyusunan laporan operasional.
+Ruang lingkup transaksi penjualan meliputi:
+Nomor transaksi otomatis. 
+Keranjang transaksi. 
+Scan barcode obat. 
+Pencarian obat. 
+Perhitungan subtotal otomatis. 
+Perhitungan total pembayaran otomatis. 
+Pembayaran tunai. 
+Pembayaran non-tunai menggunakan Midtrans Snap. 
+Pengurangan stok otomatis. 
+Cetak struk thermal 58 mm. 
+Penyimpanan riwayat transaksi. 
+Riwayat pembayaran.
+4.7 Pengelolaan Identitas Apotek
+Sistem menyediakan fitur pengelolaan identitas apotek sebagai bagian dari administrasi aplikasi. Identitas apotek digunakan untuk menampilkan informasi resmi pada halaman login, dashboard, laporan, maupun struk pembayaran. Dengan adanya fitur ini, sistem memiliki tampilan yang lebih profesional dan siap digunakan oleh apotek dalam kegiatan operasional sehari-hari.
+Ruang lingkup pengelolaan identitas apotek meliputi:
+Upload logo apotek. 
+Mengubah logo apotek. 
+Nama apotek. 
+Alamat apotek. 
+Nomor telepon. 
+Email apotek. 
+Menampilkan logo pada dashboard. 
+Menampilkan logo pada laporan PDF. 
+Menampilkan logo pada struk thermal. 
+Menampilkan identitas apotek pada halaman login.
+4.8 Pelaporan
+Pelaporan merupakan salah satu kebutuhan utama bagi pemilik apotek dalam melakukan evaluasi terhadap kegiatan operasional. Sistem menyediakan berbagai jenis laporan yang dapat diakses sesuai hak pengguna sehingga proses monitoring menjadi lebih mudah dan terstruktur. Seluruh laporan dapat ditampilkan berdasarkan periode tertentu dan dapat diunduh dalam beberapa format.
+Fitur pelaporan meliputi:
+Laporan penjualan. 
+Laporan stok obat. 
+Laporan obat masuk. 
+Laporan pendapatan. 
+Laporan metode pembayaran. 
+Laporan supplier. 
+Laporan aktivitas pengguna. 
+Export PDF. 
+Export Excel.
+
+4.9 Ruang Lingkup yang Tidak Termasuk
+Untuk menjaga fokus pengembangan, terdapat beberapa fitur yang berada di luar ruang lingkup penelitian ini. Fitur-fitur tersebut dapat dikembangkan pada tahap berikutnya sesuai dengan kebutuhan operasional apotek. Dengan adanya batasan ruang lingkup, proses pengembangan sistem menjadi lebih terarah dan sesuai dengan tujuan penelitian.
+Fitur yang tidak termasuk dalam ruang lingkup sistem adalah:
+Aplikasi Android. 
+Aplikasi iOS. 
+Integrasi BPJS. 
+Sistem akuntansi lengkap. 
+Integrasi marketplace. 
+Integrasi layanan pengiriman obat. 
+Sistem konsultasi dokter secara daring. 
+Integrasi dengan alat pembaca resep elektronik (e-Prescription).
+
+5. Stakeholders dan Pengguna
+Keberhasilan implementasi sistem tidak hanya bergantung pada teknologi yang digunakan, tetapi juga dipengaruhi oleh pihak-pihak yang terlibat dalam proses bisnis. Setiap stakeholder memiliki peran, tanggung jawab, serta kebutuhan informasi yang berbeda sehingga sistem harus mampu menyediakan hak akses yang sesuai dengan fungsi masing-masing. Dengan pembagian peran yang jelas, keamanan data dan efektivitas operasional dapat terjaga.
+Sistem Pendataan dan Monitoring Stok Obat Apotek Berbasis Web melibatkan beberapa stakeholder utama, yaitu Super Admin, Pemilik Apotek, Petugas Apotek, dan Pelanggan. Masing-masing stakeholder memiliki keterlibatan yang berbeda dalam penggunaan sistem sesuai dengan tugas dan kewenangannya. Pembagian hak akses ini juga bertujuan untuk menjaga integritas data serta meminimalkan risiko kesalahan dalam pengelolaan informasi.
+
+Stakeholder
+Peran
+Super Admin
+Mengelola seluruh sistem, mengatur hak akses pengguna, mengelola data master, mengelola identitas apotek, melakukan monitoring transaksi, monitoring pembayaran, monitoring aktivitas pengguna, serta melihat seluruh laporan operasional.
+Petugas Apotek/Kasir
+Melaksanakan operasional harian seperti menerima obat dari supplier, mengunggah faktur pembelian, melakukan transaksi penjualan, mencetak struk, serta melayani pelanggan.
+Pemilik Apotek
+Mengelola data master, membantu operasional ketika petugas tidak berada di tempat, melakukan monitoring stok, monitoring pendapatan, monitoring obat kedaluwarsa, mengelola logo dan identitas apotek, serta melihat seluruh laporan operasional.
+Pelanggan
+Membeli obat, melakukan pembayaran secara tunai maupun non-tunai, menerima struk pembayaran, serta memperoleh pelayanan dari petugas apotek.
+
+6. Persyaratan Fungsional’
+Persyaratan fungsional menjelaskan seluruh kemampuan yang harus dimiliki oleh sistem agar dapat memenuhi kebutuhan bisnis yang telah diidentifikasi. Setiap fungsi dirancang berdasarkan proses bisnis operasional apotek sehingga seluruh aktivitas dapat dilakukan secara terintegrasi melalui satu aplikasi berbasis web. Persyaratan ini menjadi acuan utama dalam proses perancangan, pengembangan, serta pengujian sistem.
+6.1 Login dan Hak Akses
+Sistem harus menyediakan mekanisme autentikasi yang aman sehingga hanya pengguna yang memiliki akun dapat mengakses aplikasi. Setelah proses login berhasil, sistem akan mengidentifikasi role pengguna dan mengarahkan pengguna ke dashboard sesuai hak aksesnya. Setiap pengguna hanya dapat mengakses menu yang sesuai dengan kewenangan masing-masing.
+Sistem harus menyediakan fitur berikut:
+Login. 
+Logout. 
+Lupa Password (opsional). 
+Hak akses berdasarkan role. 
+Session Login. 
+Remember Login (opsional). 
+Role pengguna terdiri dari:
+Super Admin 
+Pemilik Apotek 
+Petugas Apotek
+
+6.2 Manajemen Data Obat
+Sistem harus mampu mengelola seluruh informasi obat yang digunakan dalam kegiatan operasional apotek. Data obat menjadi sumber utama dalam proses transaksi penjualan, monitoring stok, maupun penyusunan laporan sehingga harus tersimpan secara lengkap dan akurat. Selain data utama, sistem juga menyediakan dokumentasi berupa foto obat agar proses identifikasi produk menjadi lebih mudah.
+Data obat yang dikelola meliputi:
+Kode Obat 
+Barcode 
+Nama Obat 
+Foto Obat 
+Kategori Obat 
+Supplier 
+Harga Beli 
+Harga Jual 
+Stok 
+Stok Minimum 
+Satuan 
+Tanggal Kedaluwarsa 
+Deskripsi Obat (Opsional) 
+Fitur yang disediakan
+Tambah Data Obat 
+Ubah Data Obat 
+Hapus Data Obat 
+Pencarian Obat 
+Filter Kategori 
+Scan Barcode 
+Upload Foto Obat 
+Preview Foto Obat 
+Download Foto Obat (Opsional) 
+Ketentuan Upload Foto
+Format JPG 
+JPEG 
+PNG 
+WEBP 
+Maksimal 2 MB 
+Disimpan menggunakan Laravel Storage 
+Hak Akses
+Aktivitas
+Super Admin
+Pemilik
+Petugas
+Create
+✅
+✅
+❌
+Read
+✅
+✅
+✅
+Update
+✅
+✅
+❌
+Delete
+✅
+✅
+❌
+Upload Foto
+✅
+✅
+❌
+Lihat Foto
+✅
+✅
+✅
+
+6.3 Manajemen Kategori Obat
+Kategori obat digunakan untuk mengelompokkan obat berdasarkan jenis atau ketentuan yang berlaku sehingga proses pencarian maupun penyusunan laporan menjadi lebih mudah. Pengelompokan ini juga membantu petugas dalam membedakan karakteristik setiap obat ketika melakukan transaksi maupun pengelolaan stok. Sistem memungkinkan penambahan kategori baru sesuai dengan kebutuhan operasional apotek.
+Kategori yang digunakan antara lain:
+Obat Bebas 
+Obat Bebas Terbatas 
+Obat Keras 
+Psikotropika 
+Narkotika 
+Atau dapat disesuaikan menjadi:
+Kategori Merah 
+Kategori Biru 
+Kategori Hijau 
+Hak Akses
+Aktivitas
+Super Admin
+Pemilik
+Petugas
+Create
+✅
+✅
+❌
+Read
+✅
+✅
+✅
+Update
+✅
+✅
+❌
+Delete
+✅
+✅
+❌
+
+6.4 Manajemen Supplier
+Sistem harus menyediakan fasilitas pengelolaan data supplier sebagai sumber pengadaan obat. Data supplier digunakan pada proses pencatatan obat masuk sehingga setiap transaksi pembelian dapat ditelusuri kembali dengan mudah. Informasi supplier juga akan digunakan dalam penyusunan laporan pembelian serta monitoring hubungan kerja sama dengan pemasok.
+Data supplier meliputi:
+Nama Supplier 
+Logo Supplier (Opsional) 
+Alamat 
+Nomor Telepon 
+Email 
+Nama PIC 
+Keterangan 
+Hak Akses
+Aktivitas
+Super Admin
+Pemilik
+Petugas
+Create
+✅
+✅
+❌
+Read
+✅
+✅
+✅
+Update
+✅
+✅
+❌
+Delete
+✅
+✅
+❌
+
+6.5 Obat Masuk
+Sistem harus mampu mencatat seluruh proses penerimaan obat dari supplier sehingga stok obat dapat diperbarui secara otomatis. Setiap transaksi obat masuk akan menghasilkan riwayat yang dapat ditelusuri kembali apabila diperlukan. Selain itu, sistem juga menyediakan fasilitas unggah faktur pembelian sebagai arsip digital untuk mendukung proses audit dan dokumentasi.
+Fitur yang tersedia meliputi:
+Input Obat Masuk 
+Pilih Supplier 
+Pilih Obat 
+Input Jumlah 
+Input Harga Beli 
+Upload Faktur Pembelian 
+Riwayat Obat Masuk 
+Preview Faktur 
+Download Faktur 
+Penambahan Stok Otomatis 
+Ketentuan Upload Faktur
+PDF 
+JPG 
+JPEG 
+PNG 
+Maksimal 5 MB 
+Disimpan menggunakan Laravel Storage 
+Hak Akses
+Aktivitas
+Super Admin
+Pemilik
+Petugas
+Input Obat Masuk
+✅
+✅
+✅
+Upload Faktur
+✅
+✅
+✅
+Lihat Faktur
+✅
+✅
+✅
+Download Faktur
+✅
+✅
+✅
+Hapus Faktur
+✅
+✅
+❌
+
+6.6 Transaksi Penjualan
+Sistem harus mampu memproses transaksi penjualan secara cepat dan akurat agar pelayanan kepada pelanggan menjadi lebih efisien. Seluruh proses perhitungan dilakukan secara otomatis sehingga mengurangi kemungkinan kesalahan perhitungan oleh pengguna. Setelah pembayaran berhasil, sistem akan mengurangi stok obat dan menyimpan seluruh riwayat transaksi ke dalam database.
+Fitur transaksi meliputi:
+Nomor Transaksi Otomatis 
+Scan Barcode 
+Cari Obat 
+Keranjang Belanja 
+Perhitungan Otomatis 
+Diskon (Opsional) 
+Pembayaran Tunai 
+Pembayaran Non-Tunai 
+Cetak Struk 
+Riwayat Transaksi 
+Pengurangan Stok Otomatis 
+Hak Akses
+Aktivitas
+Super Admin
+Pemilik
+Petugas
+Transaksi Penjualan
+✅
+✅
+✅
+Cetak Struk
+✅
+✅
+✅
+Riwayat Transaksi
+✅
+✅
+✅
+
+6.7 Pembayaran
+Sistem harus mendukung lebih dari satu metode pembayaran agar pelanggan memiliki fleksibilitas dalam menyelesaikan transaksi. Integrasi dengan Midtrans memungkinkan pembayaran digital dilakukan secara aman dan tercatat secara otomatis. Status pembayaran akan diperbarui sesuai respons yang diterima dari sistem pembayaran.
+Pembayaran Tunai
+Input nominal uang 
+Hitung kembalian otomatis 
+Status berhasil 
+Pembayaran Non-Tunai
+Terintegrasi dengan Midtrans Snap
+Metode pembayaran:
+QRIS 
+GoPay 
+OVO 
+DANA 
+ShopeePay 
+Virtual Account 
+Status pembayaran:
+Pending 
+Berhasil 
+Gagal
+
+6.8 Monitoring Stok
+Monitoring stok merupakan salah satu fitur utama dalam sistem yang bertujuan membantu pengguna mengetahui kondisi persediaan obat secara real-time. Informasi yang ditampilkan berasal dari data transaksi obat masuk dan transaksi penjualan sehingga jumlah stok selalu diperbarui secara otomatis. Dengan adanya fitur ini, pemilik apotek dapat mengambil keputusan lebih cepat ketika stok mulai menipis atau terdapat obat yang mendekati tanggal kedaluwarsa.
+Sistem harus mampu menampilkan informasi stok secara akurat melalui dashboard maupun halaman monitoring. Pengguna dapat melakukan pencarian dan penyaringan data berdasarkan kategori obat sehingga proses pengecekan menjadi lebih mudah. Informasi monitoring juga dapat digunakan sebagai dasar dalam melakukan pembelian obat kepada supplier.
+Fitur Monitoring Stok
+Monitoring stok seluruh obat. 
+Monitoring stok minimum. 
+Monitoring obat hampir habis. 
+Monitoring obat yang mendekati tanggal kedaluwarsa. 
+Monitoring obat yang sudah kedaluwarsa. 
+Pencarian data obat. 
+Filter berdasarkan kategori obat. 
+Filter berdasarkan supplier. 
+Filter berdasarkan status stok. 
+Informasi stok diperbarui secara real-time. 
+Hak Akses
+Aktivitas
+Super Admin
+Pemilik
+Petugas
+Monitoring Stok
+✅
+✅
+✅
+Monitoring Obat Hampir Habis
+✅
+✅
+✅
+Monitoring Obat Kedaluwarsa
+✅
+✅
+✅
+Filter Data
+✅
+✅
+✅
+
+
+6.9 Dashboard Monitoring
+Dashboard monitoring berfungsi sebagai halaman utama yang menampilkan ringkasan kondisi operasional apotek secara cepat dan informatif. Informasi yang disajikan membantu pengguna mengetahui kondisi stok, transaksi, serta pendapatan tanpa harus membuka setiap menu secara terpisah. Dashboard juga dirancang agar informasi penting dapat dipahami dengan mudah melalui indikator dan grafik.
+Dashboard harus mampu menampilkan informasi sebagai berikut:
+Total Obat 
+Total Kategori 
+Total Supplier 
+Total Stok 
+Total Transaksi 
+Total Pendapatan Hari Ini 
+Total Pendapatan Bulan Ini 
+Grafik Penjualan 
+Grafik Transaksi 
+Obat Hampir Habis 
+Obat Kedaluwarsa 
+Aktivitas Terbaru 
+
+6.10 Pelaporan
+Pelaporan digunakan untuk menyajikan data operasional dalam bentuk laporan yang dapat digunakan sebagai bahan evaluasi dan pengambilan keputusan. Pengguna dapat memilih rentang tanggal tertentu sehingga laporan yang dihasilkan sesuai dengan kebutuhan. Selain ditampilkan pada sistem, laporan juga dapat diunduh dalam format PDF maupun Excel.
+Sistem menyediakan laporan sebagai berikut:
+Laporan Penjualan 
+Laporan Obat Masuk 
+Laporan Stok Obat 
+Laporan Pendapatan 
+Laporan Supplier 
+Laporan Metode Pembayaran 
+Laporan Aktivitas Pengguna 
+Export PDF 
+Export Excel
+
+6.11 Manajemen Identitas Apotek
+Sistem menyediakan fitur pengelolaan identitas apotek sebagai bagian dari administrasi aplikasi. Informasi identitas ini digunakan untuk memperkuat branding apotek dan memastikan seluruh dokumen yang dihasilkan memiliki identitas resmi. Pengelolaan identitas hanya dapat dilakukan oleh pengguna yang memiliki hak akses sesuai dengan kebijakan sistem.
+Fitur yang disediakan meliputi:
+Upload Logo Apotek 
+Nama Apotek 
+Alamat Apotek 
+Nomor Telepon 
+Email 
+Jam Operasional 
+Tampilkan Logo pada Dashboard 
+Tampilkan Logo pada Laporan PDF 
+Tampilkan Logo pada Struk Thermal 
+Hak Akses
+Aktivitas
+Super Admin
+Pemilik
+Petugas
+Kelola Identitas
+✅
+✅
+❌
+Upload Logo
+✅
+✅
+❌
+Melihat Identitas
+✅
+✅
+✅
+6.12 Cetak Struk
+Sistem mendukung pencetakan struk menggunakan printer thermal berukuran 58 mm setelah transaksi pembayaran berhasil dilakukan. Struk berfungsi sebagai bukti transaksi yang diberikan kepada pelanggan sekaligus sebagai arsip penjualan. Informasi yang dicetak harus lengkap agar memudahkan proses verifikasi apabila diperlukan di kemudian hari.
+Informasi pada struk meliputi:
+Logo Apotek 
+Nama Apotek 
+Alamat Apotek 
+Nomor Transaksi 
+Tanggal Transaksi 
+Nama Obat 
+Jumlah Pembelian 
+Harga Satuan 
+Subtotal 
+Total Pembayaran 
+Metode Pembayaran 
+Nominal Pembayaran 
+Kembalian 
+Ucapan Terima Kasih
+
+7. Persyaratan Non-Fungsional
+Persyaratan non-fungsional menjelaskan karakteristik kualitas yang harus dimiliki oleh sistem agar mampu mendukung proses bisnis secara optimal. Persyaratan ini tidak berfokus pada fungsi yang dijalankan oleh sistem, melainkan pada aspek keamanan, kinerja, keandalan, kemudahan penggunaan, serta pemeliharaan aplikasi. Dengan terpenuhinya persyaratan non-fungsional, sistem diharapkan mampu memberikan pengalaman penggunaan yang baik sekaligus menjaga integritas data operasional apotek.
+7.1 Keamanan (Security)
+Keamanan merupakan aspek yang sangat penting karena sistem menyimpan data obat, transaksi penjualan, data supplier, serta informasi pengguna. Seluruh data harus dilindungi dari akses yang tidak sah agar tidak terjadi penyalahgunaan maupun perubahan data tanpa izin. Oleh karena itu, sistem menerapkan mekanisme autentikasi dan otorisasi berdasarkan hak akses setiap pengguna.
+Sistem harus memenuhi ketentuan berikut:
+Login menggunakan email dan password. 
+Password disimpan menggunakan metode hashing. 
+Hak akses dibedakan berdasarkan role pengguna. 
+Session pengguna dikelola secara aman. 
+Pengguna yang tidak memiliki hak akses tidak dapat membuka menu tertentu. 
+Upload file divalidasi berdasarkan ukuran dan format. 
+Seluruh aktivitas penting hanya dapat dilakukan setelah pengguna berhasil login. 
+
+7.2 Keandalan (Reliability)
+Sistem harus mampu beroperasi secara stabil selama digunakan dalam kegiatan operasional apotek. Seluruh proses transaksi, pencatatan stok, maupun penyimpanan data harus berjalan dengan baik tanpa menyebabkan kehilangan data. Keandalan sistem juga menjadi faktor penting untuk memastikan pelayanan kepada pelanggan tidak terganggu.
+Sistem harus mampu:
+Menyimpan data secara konsisten. 
+Mengurangi risiko kehilangan data. 
+Memastikan transaksi tersimpan secara utuh. 
+Menjaga konsistensi stok setelah transaksi berhasil. 
+Memastikan riwayat obat masuk selalu tersimpan. 
+
+7.3 Kinerja (Performance)
+Sistem harus mampu memberikan respons yang cepat ketika digunakan oleh pengguna. Proses pencarian data obat, transaksi penjualan, monitoring stok, maupun penyusunan laporan harus dilakukan tanpa jeda yang mengganggu operasional. Kinerja yang baik akan meningkatkan produktivitas petugas serta mempercepat pelayanan kepada pelanggan.
+Sistem diharapkan mampu:
+Menampilkan dashboard dengan cepat. 
+Melakukan pencarian obat secara responsif. 
+Memproses transaksi dalam waktu singkat. 
+Memperbarui stok secara real-time. 
+Menghasilkan laporan dengan cepat. 
+
+7.4 Kemudahan Penggunaan (Usability)
+Antarmuka sistem harus dirancang sederhana agar mudah dipahami oleh seluruh pengguna tanpa memerlukan pelatihan yang rumit. Navigasi menu dibuat konsisten sehingga pengguna dapat menemukan fitur yang dibutuhkan dengan cepat. Selain itu, sistem harus memberikan pesan kesalahan maupun notifikasi yang mudah dipahami.
+Sistem harus memiliki:
+Tampilan yang sederhana. 
+Navigasi yang konsisten. 
+Form yang mudah digunakan. 
+Pesan validasi yang jelas. 
+Dashboard yang informatif. 
+
+7.5 Kompatibilitas (Compatibility)
+Sistem dikembangkan menggunakan teknologi berbasis web sehingga dapat diakses melalui berbagai perangkat tanpa memerlukan instalasi aplikasi tambahan. Pengguna cukup menggunakan browser untuk mengakses seluruh fitur sesuai hak akses yang dimiliki. Dengan demikian, sistem menjadi lebih fleksibel untuk digunakan dalam berbagai kondisi operasional.
+Sistem harus kompatibel dengan:
+Google Chrome. 
+Microsoft Edge. 
+Mozilla Firefox. 
+Browser pada perangkat mobile. 
+
+7.6 Penyimpanan File (File Storage)
+Sistem menyediakan fasilitas penyimpanan file untuk mendukung dokumentasi operasional apotek. File yang disimpan meliputi foto obat, faktur pembelian, serta logo apotek yang digunakan sebagai identitas sistem. Penyimpanan dilakukan menggunakan Laravel Storage agar file tersimpan secara terstruktur dan mudah dikelola.
+Ketentuan penyimpanan file meliputi:
+Foto obat disimpan pada folder khusus. 
+Faktur pembelian disimpan pada folder terpisah. 
+Logo apotek disimpan pada folder identitas sistem. 
+Lokasi file disimpan pada database. 
+File hanya dapat diakses oleh pengguna yang memiliki hak akses. 
+
+7.7 Backup dan Recovery
+Backup data diperlukan untuk mengurangi risiko kehilangan informasi akibat kerusakan perangkat keras, kesalahan pengguna, maupun gangguan sistem. Proses backup dilakukan secara berkala sehingga data dapat dipulihkan apabila terjadi masalah. Dengan adanya mekanisme backup, keberlangsungan operasional apotek tetap dapat terjaga.
+Sistem harus mendukung:
+Backup database secara berkala. 
+Backup file gambar. 
+Backup faktur pembelian. 
+Backup logo apotek. 
+Proses pemulihan data (restore).
+
+8. Arsitektur Tingkat Tinggi
+Arsitektur sistem menggambarkan teknologi utama yang digunakan dalam proses pengembangan aplikasi. Pemilihan teknologi dilakukan berdasarkan kebutuhan sistem, kemudahan pengembangan, serta kompatibilitas antar komponen. Seluruh komponen saling terintegrasi sehingga mampu mendukung operasional sistem secara optimal.
+Komponen
+Teknologi
+Backend
+Laravel 12
+Admin Panel
+Filament v3
+Frontend
+Blade
+Reactive Component
+Livewire
+CSS Framework
+Tailwind CSS
+Database
+MariaDB
+File Storage
+Laravel Storage
+Payment Gateway
+Midtrans Snap
+Container
+Docker
+Version Control
+Git & GitHub
+Development Tools
+Visual Studio Code
+Local Server
+Laravel Herd / WSL
+
+9. Model Data (Ringkas)
+Model data digunakan sebagai dasar dalam proses perancangan database. Setiap tabel memiliki hubungan yang saling terintegrasi sehingga mendukung proses bisnis mulai dari pengelolaan data obat hingga transaksi penjualan. Struktur database juga telah disesuaikan dengan fitur tambahan seperti foto obat, faktur pembelian, serta identitas apotek.
+users
+id 
+nama 
+email 
+password 
+role 
+
+kategori_obats
+id 
+nama_kategori 
+deskripsi 
+
+suppliers
+id 
+nama_supplier 
+alamat 
+no_telp 
+email 
+
+obats
+id 
+kategori_obat_id 
+supplier_id 
+nama_obat 
+barcode 
+image 
+harga_beli 
+harga_jual 
+stok 
+stok_minimum 
+tanggal_kedaluwarsa 
+
+obat_masuks
+id 
+obat_id 
+supplier_id 
+jumlah 
+harga_beli 
+bukti_faktur 
+tanggal_masuk 
+
+penjualans
+id 
+kode_transaksi 
+user_id 
+total_harga 
+metode_pembayaran 
+status_pembayaran 
+
+detail_penjualans
+id 
+penjualan_id 
+obat_id 
+jumlah 
+harga 
+subtotal 
+
+pembayarans
+id 
+penjualan_id 
+nomor_referensi 
+metode_pembayaran 
+status_pembayaran 
+
+pengaturan_apoteks (Tabel Baru)
+id 
+nama_apotek 
+logo 
+alamat 
+telepon 
+email 
+created_at 
+updated_at
+
+10. Alur Proses Bisnis (Ringkas)
+Alur proses bisnis menggambarkan urutan aktivitas yang dilakukan oleh pengguna mulai dari proses login hingga penyusunan laporan operasional. Setiap aktivitas saling terhubung sehingga perubahan data pada satu proses akan memengaruhi proses lainnya secara otomatis. Dengan alur yang terintegrasi, sistem mampu mendukung operasional apotek secara lebih efektif dan efisien.
+Proses Bisnis
+Pengguna melakukan login sesuai hak akses. 
+Sistem menampilkan dashboard berdasarkan role pengguna. 
+Super Admin atau Pemilik mengelola data master apabila diperlukan. 
+Petugas atau Pemilik menerima obat dari supplier. 
+Pengguna melakukan input obat masuk. 
+Pengguna mengunggah faktur pembelian. 
+Sistem menambah stok obat secara otomatis. 
+Foto obat dapat ditambahkan atau diperbarui oleh Super Admin maupun Pemilik. 
+Pelanggan melakukan pembelian obat. 
+Pengguna mencari obat menggunakan nama atau barcode. 
+Sistem menghitung total pembayaran secara otomatis. 
+Pelanggan memilih metode pembayaran. 
+Sistem memproses pembayaran. 
+Setelah pembayaran berhasil, stok berkurang secara otomatis. 
+Sistem menyimpan transaksi dan riwayat pembayaran. 
+Sistem mencetak struk beserta logo apotek. 
+Dashboard memperbarui data monitoring stok secara real-time. 
+Pemilik melakukan monitoring stok, transaksi, pendapatan, dan obat yang mendekati kedaluwarsa. 
+Pengguna menghasilkan laporan dalam format PDF atau Excel. 
+
+11. Alur Proses Teknis
+Alur proses teknis menjelaskan bagaimana sistem menjalankan setiap fungsi mulai dari pengguna melakukan login hingga menghasilkan laporan operasional. Setiap proses dirancang agar seluruh data tersimpan secara konsisten dan mampu mendukung monitoring stok secara real-time. Penjelasan proses teknis ini menjadi acuan dalam tahap implementasi sehingga pengembang memiliki gambaran yang jelas mengenai alur kerja sistem.
+
+11.1 Proses Login
+Proses login merupakan tahapan awal sebelum pengguna dapat mengakses sistem. Setiap pengguna diwajibkan memasukkan email dan password yang telah terdaftar sehingga sistem dapat melakukan proses autentikasi. Setelah proses login berhasil, sistem akan menentukan hak akses berdasarkan role pengguna dan menampilkan dashboard yang sesuai.
+Alur Proses
+Pengguna membuka halaman login. 
+Pengguna memasukkan email. 
+Pengguna memasukkan password. 
+Sistem melakukan validasi data. 
+Apabila data tidak valid, sistem menampilkan pesan kesalahan. 
+Apabila data valid, sistem membuat session pengguna. 
+Sistem mengidentifikasi role pengguna. 
+Dashboard ditampilkan sesuai hak akses. 
+
+11.2 Proses Pengelolaan Data Obat
+Proses pengelolaan data obat dilakukan oleh Super Admin dan Pemilik Apotek sebagai pengguna yang memiliki hak untuk mengelola data master. Seluruh data obat yang ditambahkan akan menjadi acuan dalam transaksi penjualan, monitoring stok, dan penyusunan laporan. Sistem juga menyediakan fasilitas unggah foto obat agar identifikasi produk menjadi lebih mudah.
+Alur Proses
+Pengguna membuka menu Data Obat. 
+Pengguna memilih Tambah atau Edit Data Obat. 
+Pengguna mengisi informasi obat. 
+Pengguna memilih kategori obat. 
+Pengguna memilih supplier. 
+Pengguna mengunggah foto obat. 
+Sistem memvalidasi format dan ukuran gambar. 
+Sistem menyimpan gambar pada Laravel Storage. 
+Sistem menyimpan data obat ke database. 
+Sistem menampilkan notifikasi bahwa data berhasil disimpan. 
+
+11.3 Proses Input Obat Masuk
+Proses obat masuk digunakan untuk mencatat setiap penerimaan obat dari supplier sehingga jumlah stok dapat diperbarui secara otomatis. Setiap transaksi akan menghasilkan riwayat pembelian yang dapat ditelusuri kembali apabila diperlukan. Selain itu, pengguna juga dapat mengunggah faktur pembelian sebagai arsip digital.
+Alur Proses
+Pengguna membuka menu Obat Masuk. 
+Pengguna memilih supplier. 
+Pengguna memilih obat. 
+Pengguna memasukkan jumlah obat. 
+Pengguna memasukkan harga beli. 
+Pengguna mengunggah faktur pembelian. 
+Sistem melakukan validasi dokumen. 
+Sistem menyimpan faktur pada Laravel Storage. 
+Sistem menambahkan stok obat. 
+Sistem menyimpan riwayat obat masuk. 
+Sistem menampilkan notifikasi berhasil. 
+
+11.4 Proses Transaksi Penjualan
+Proses transaksi penjualan dilakukan ketika pelanggan melakukan pembelian obat di apotek. Sistem akan menghitung total pembayaran secara otomatis berdasarkan jumlah obat yang dipilih. Setelah pembayaran berhasil, stok obat akan berkurang dan seluruh transaksi disimpan sebagai riwayat penjualan.
+Alur Proses
+Pengguna membuka menu Transaksi. 
+Sistem membuat nomor transaksi otomatis. 
+Pengguna mencari obat menggunakan nama atau barcode. 
+Sistem menampilkan informasi obat beserta stok. 
+Pengguna menentukan jumlah pembelian. 
+Sistem menghitung subtotal. 
+Sistem menghitung total pembayaran. 
+Pengguna memilih metode pembayaran. 
+Sistem memproses pembayaran. 
+Sistem mengurangi stok. 
+Sistem menyimpan transaksi. 
+Sistem mencetak struk. 
+
+11.5 Proses Pembayaran Tunai
+Pembayaran tunai dilakukan apabila pelanggan membayar secara langsung menggunakan uang tunai. Sistem akan menghitung jumlah kembalian secara otomatis sehingga meminimalkan kesalahan perhitungan. Setelah pembayaran selesai, transaksi akan disimpan dan status pembayaran diperbarui menjadi berhasil.
+Alur Proses
+Pilih pembayaran tunai. 
+Sistem menampilkan total pembayaran. 
+Pengguna memasukkan nominal uang. 
+Sistem menghitung kembalian. 
+Status pembayaran menjadi Berhasil. 
+Sistem menyimpan transaksi. 
+
+11.6 Proses Pembayaran Non-Tunai
+Sistem mendukung pembayaran digital melalui integrasi dengan Midtrans Snap sehingga pelanggan dapat memilih berbagai metode pembayaran elektronik. Setelah pelanggan menyelesaikan pembayaran, Midtrans akan mengirimkan status pembayaran kepada sistem melalui callback. Status transaksi akan diperbarui secara otomatis sesuai hasil pembayaran.
+Alur Proses
+Pengguna memilih pembayaran non-tunai. 
+Sistem mengirim data transaksi ke Midtrans. 
+Midtrans menampilkan pilihan pembayaran. 
+Pelanggan menyelesaikan pembayaran. 
+Midtrans mengirim callback. 
+Sistem memperbarui status pembayaran. 
+Sistem mengurangi stok. 
+Sistem menyimpan transaksi. 
+Sistem mencetak struk. 
+
+11.7 Proses Monitoring Stok
+Monitoring stok merupakan proses utama dalam sistem yang bertujuan memberikan informasi mengenai kondisi persediaan obat secara real-time. Data monitoring diperoleh dari transaksi obat masuk dan transaksi penjualan sehingga jumlah stok selalu diperbarui secara otomatis. Informasi ini membantu pengguna dalam menentukan waktu yang tepat untuk melakukan pembelian kembali kepada supplier.
+Alur Proses
+Sistem mengambil data stok dari database. 
+Sistem membandingkan stok dengan stok minimum. 
+Sistem memeriksa tanggal kedaluwarsa. 
+Sistem mengidentifikasi obat hampir habis. 
+Sistem mengidentifikasi obat yang mendekati kedaluwarsa. 
+Dashboard diperbarui secara otomatis. 
+Pengguna dapat melakukan pencarian dan filter data. 
+Sistem menampilkan notifikasi apabila terdapat stok yang memerlukan perhatian. 
+
+11.8 Proses Pengelolaan Identitas Apotek
+Pengelolaan identitas apotek dilakukan oleh Super Admin atau Pemilik Apotek untuk memastikan informasi resmi yang ditampilkan pada sistem selalu sesuai dengan kondisi sebenarnya. Identitas tersebut meliputi logo, nama apotek, alamat, nomor telepon, dan email. Informasi ini akan digunakan pada halaman login, dashboard, laporan, serta struk pembayaran.
+Alur Proses
+Pengguna membuka menu Pengaturan Apotek. 
+Pengguna mengubah informasi apotek. 
+Pengguna mengunggah logo apotek. 
+Sistem memvalidasi file. 
+Sistem menyimpan logo. 
+Sistem memperbarui identitas pada dashboard. 
+Sistem memperbarui identitas pada laporan. 
+Sistem memperbarui identitas pada struk. 
+
+11.9 Proses Pembuatan Laporan
+Pembuatan laporan digunakan untuk menyajikan informasi operasional dalam periode tertentu sebagai bahan evaluasi dan pengambilan keputusan. Pengguna dapat memilih jenis laporan serta rentang tanggal yang diinginkan. Sistem akan memproses data dan menghasilkan laporan yang dapat ditampilkan maupun diunduh.
+Alur Proses
+Pengguna memilih menu Laporan. 
+Pengguna memilih jenis laporan. 
+Pengguna menentukan rentang tanggal. 
+Sistem mengambil data dari database. 
+Sistem melakukan perhitungan. 
+Sistem menampilkan laporan. 
+Pengguna memilih format PDF atau Excel. 
+Sistem menghasilkan file laporan.
+
+12. Teknologi
+Teknologi yang digunakan dalam pengembangan sistem dipilih berdasarkan kebutuhan aplikasi, kemudahan pengembangan, serta dukungan komunitas yang luas. Seluruh teknologi saling terintegrasi sehingga mampu menghasilkan aplikasi yang stabil, aman, dan mudah dikembangkan pada masa mendatang. Pemilihan teknologi ini juga mempertimbangkan kemudahan implementasi di lingkungan akademik maupun dunia industri.
+Komponen
+Teknologi
+Backend
+Laravel 12
+Admin Panel
+Filament v3
+Frontend
+Blade
+Reactive Component
+Livewire
+CSS Framework
+Tailwind CSS
+Database
+MariaDB
+Storage
+Laravel Storage
+Payment Gateway
+Midtrans Snap
+Printer
+Thermal Printer ESC/POS 58 mm
+Containerization
+Docker
+Version Control
+Git & GitHub
+Development Environment
+Visual Studio Code, WSL / Laravel Herd
+
+13. Asumsi
+Pengembangan sistem dilakukan berdasarkan sejumlah asumsi yang menjadi dasar dalam proses analisis dan implementasi. Asumsi ini digunakan untuk membatasi ruang lingkup penelitian sehingga pengembangan sistem dapat dilakukan secara lebih terarah. Apabila terdapat perubahan kebutuhan di masa mendatang, sistem masih dapat dikembangkan lebih lanjut.
+Asumsi yang digunakan adalah sebagai berikut:
+Seluruh pengguna telah memiliki akun yang dibuat oleh Super Admin. 
+Koneksi internet tersedia selama sistem digunakan. 
+Printer thermal telah terhubung dengan komputer. 
+Midtrans berada dalam kondisi aktif. 
+Seluruh transaksi dilakukan melalui sistem. 
+Data obat diperbarui setiap terjadi obat masuk atau penjualan. 
+Monitoring stok dilakukan secara otomatis berdasarkan data transaksi. 
+Foto obat, faktur pembelian, dan logo apotek disimpan menggunakan Laravel Storage. 
+Hak akses diterapkan sesuai dengan role masing-masing.
+
+14. Risiko dan Mitigasi
+Risiko merupakan kondisi yang dapat memengaruhi keberhasilan implementasi maupun operasional sistem apabila tidak diantisipasi dengan baik. Identifikasi risiko dilakukan sejak tahap perancangan agar setiap kemungkinan permasalahan memiliki langkah mitigasi yang sesuai. Dengan adanya mitigasi, sistem diharapkan tetap dapat berjalan secara optimal meskipun terjadi kendala selama proses operasional.
+
+Risiko
+Mitigasi
+Perbedaan antara stok fisik dan stok pada sistem
+Melakukan stock opname secara berkala serta menyediakan fitur penyesuaian stok oleh pengguna yang memiliki hak akses.
+Pembayaran online mengalami kegagalan
+Pengguna dapat mengulangi pembayaran atau mengganti metode pembayaran menjadi tunai.
+Printer thermal mengalami kerusakan
+Menyediakan printer cadangan atau melakukan pencetakan ulang setelah printer diperbaiki.
+Kehilangan data akibat kerusakan server
+Melakukan backup database dan file secara berkala serta menyediakan mekanisme restore data.
+Koneksi internet terputus
+Sistem tetap dapat melanjutkan transaksi tunai dan melakukan sinkronisasi apabila koneksi telah kembali normal.
+Obat melewati tanggal kedaluwarsa
+Sistem memberikan notifikasi kepada pengguna sebelum tanggal kedaluwarsa berdasarkan batas waktu yang telah ditentukan.
+Pengguna mengunggah file yang tidak sesuai
+Sistem melakukan validasi format dan ukuran file sebelum disimpan.
+Pengguna menghapus data secara tidak sengaja
+Memberikan konfirmasi sebelum proses penghapusan dan membatasi hak akses sesuai role pengguna.
+
+15. Kriteria Penerimaan
+Kriteria penerimaan digunakan sebagai acuan untuk menentukan apakah sistem yang dikembangkan telah memenuhi seluruh kebutuhan bisnis yang telah ditetapkan. Seluruh fungsi utama harus dapat berjalan sesuai dengan spesifikasi agar sistem dapat dinyatakan siap digunakan. Pengujian dilakukan berdasarkan setiap fitur yang terdapat pada dokumen Business Requirement Document ini.
+Sistem dinyatakan berhasil apabila memenuhi kriteria berikut:
+Manajemen Pengguna
+Super Admin dapat mengelola data pengguna. 
+Sistem dapat menerapkan hak akses berdasarkan role pengguna. 
+Pengguna dapat melakukan login dan logout. 
+
+Manajemen Data Obat
+Super Admin dan Pemilik Apotek dapat melakukan CRUD data obat. 
+Petugas hanya dapat melihat data obat. 
+Sistem dapat mengunggah foto obat. 
+Sistem dapat menampilkan foto obat pada daftar maupun detail obat. 
+Sistem dapat melakukan pencarian obat berdasarkan nama maupun barcode. 
+
+Manajemen Kategori Obat
+Super Admin dan Pemilik Apotek dapat melakukan CRUD kategori obat. 
+Petugas dapat melihat kategori obat. 
+
+Manajemen Supplier
+Super Admin dan Pemilik Apotek dapat melakukan CRUD supplier. 
+Petugas dapat melihat data supplier. 
+
+Obat Masuk
+Seluruh pengguna operasional dapat melakukan input obat masuk. 
+Sistem dapat menambah stok secara otomatis. 
+Sistem dapat mengunggah faktur pembelian. 
+Sistem dapat menyimpan riwayat obat masuk. 
+
+Monitoring Stok
+Sistem dapat menampilkan stok obat secara real-time. 
+Sistem dapat menampilkan obat yang hampir habis. 
+Sistem dapat menampilkan obat yang mendekati tanggal kedaluwarsa. 
+Sistem dapat menampilkan obat yang telah kedaluwarsa. 
+Sistem dapat melakukan filter berdasarkan kategori dan supplier. 
+
+Dashboard
+Dashboard menampilkan ringkasan operasional. 
+Dashboard menampilkan grafik penjualan. 
+Dashboard menampilkan grafik transaksi. 
+Dashboard menampilkan informasi stok minimum. 
+Dashboard menampilkan informasi obat kedaluwarsa. 
+
+Transaksi Penjualan
+Sistem dapat membuat transaksi penjualan. 
+Sistem dapat mengurangi stok secara otomatis. 
+Sistem dapat mencetak struk. 
+Sistem dapat menyimpan riwayat transaksi. 
+
+Pembayaran
+Sistem menerima pembayaran tunai. 
+Sistem menerima pembayaran non-tunai melalui Midtrans. 
+Status pembayaran dapat diperbarui secara otomatis. 
+
+Pelaporan
+Sistem menghasilkan laporan penjualan. 
+Sistem menghasilkan laporan obat masuk. 
+Sistem menghasilkan laporan stok. 
+Sistem menghasilkan laporan pendapatan. 
+Sistem dapat melakukan export PDF. 
+Sistem dapat melakukan export Excel. 
+
+Identitas Apotek
+Sistem dapat mengunggah logo apotek. 
+Logo ditampilkan pada dashboard. 
+Logo ditampilkan pada laporan PDF. 
+Logo ditampilkan pada struk pembayaran. 
+16. Diagram Use Case
+Diagram Use Case menggambarkan hubungan antara aktor dengan fungsi-fungsi utama yang tersedia pada sistem. Setiap aktor memiliki hak akses yang berbeda sesuai dengan tugas dan tanggung jawabnya dalam proses operasional apotek. Diagram ini menjadi acuan untuk memastikan seluruh kebutuhan fungsional telah terwakili pada tahap perancangan sistem.
+
+Aktor
+1. Super Admin
+Super Admin merupakan aktor yang memiliki hak akses penuh terhadap seluruh sistem. Super Admin bertanggung jawab mengelola pengguna, data master, konfigurasi sistem, serta melakukan monitoring terhadap seluruh aktivitas operasional apotek. Selain itu, Super Admin juga dapat membantu operasional apabila diperlukan.
+Use Case
+Login & Logout 
+Kelola Pengguna 
+Kelola Data Obat 
+Kelola Kategori Obat 
+Kelola Supplier 
+Kelola Identitas Apotek 
+Kelola Obat Masuk 
+Kelola Transaksi Penjualan 
+Monitoring Stok 
+Monitoring Pembayaran 
+Kelola Laporan 
+
+2. Pemilik Apotek
+Pemilik Apotek bertanggung jawab melakukan pengawasan terhadap kegiatan operasional sekaligus membantu operasional ketika petugas tidak berada di tempat. Pemilik memiliki hak untuk mengelola data master, melakukan transaksi, serta memonitor kondisi apotek sebagai dasar pengambilan keputusan. Seluruh informasi yang ditampilkan disesuaikan dengan kebutuhan pengelolaan bisnis apotek.
+Use Case
+Login & Logout 
+Kelola Data Obat 
+Kelola Kategori Obat 
+Kelola Supplier 
+Kelola Identitas Apotek 
+Kelola Obat Masuk 
+Kelola Transaksi Penjualan 
+Monitoring Stok 
+Monitoring Pendapatan 
+Kelola Laporan 
+
+3. Petugas Apotek
+Petugas Apotek bertugas menjalankan kegiatan operasional harian yang berkaitan dengan penerimaan obat dan pelayanan kepada pelanggan. Hak akses petugas dibatasi agar tidak dapat mengubah data master sehingga keamanan dan konsistensi data tetap terjaga. Petugas hanya dapat melakukan aktivitas operasional sesuai dengan tugasnya.
+Use Case
+Login & Logout 
+Kelola Obat Masuk 
+Kelola Transaksi Penjualan 
+Monitoring Stok 
+
+4. Pelanggan
+Pelanggan merupakan pihak yang melakukan pembelian obat di apotek dan tidak memiliki akses langsung ke dalam sistem. Seluruh proses transaksi dilakukan melalui Petugas Apotek atau Pemilik Apotek. Pelanggan hanya berinteraksi pada proses pembelian dan pembayaran.
+Use Case
+Membeli Obat 
+Melakukan Pembayaran 
+Menerima Struk 
+
+
