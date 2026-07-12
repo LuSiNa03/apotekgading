@@ -15,6 +15,11 @@ class MasterDataSeeder extends Seeder
      */
     public function run(): void
     {
+        // Hanya seed jika tabel obat kosong untuk mencegah data ter-reset setiap Docker menyala
+        if (Obat::count() > 0) {
+            return;
+        }
+
         // 1. Seed Categories
         $kategoriBebas = KategoriObat::firstOrCreate(
             ['nama_kategori' => 'Obat Bebas'],

@@ -35,6 +35,11 @@ class Kasir extends Page
     #[Url]
     public $kategoriId = '';
 
+    #[Url]
+    public $penyakitId = '';
+
+    public $showCartDrawer = false;
+
     // Cart state
     public $cart = [];
     public $totalHarga = 0;
@@ -118,7 +123,40 @@ class Kasir extends Page
         }
 
         $this->hitungTotal();
-        Notification::make()->title('Obat ditambahkan ke keranjang')->success()->send();
+        Notification::make()->title('Produk berhasil ditambahkan ke keranjang.')->success()->send();
+    }
+
+    /**
+     * Scan barcode dari input scanner.
+     * Cari produk berdasarkan barcode exact match, lalu addToCart otomatis.
+     */
+    public function scanBarcode(string $barcodeInput): void
+    {
+        $barcodeInput = trim($barcodeInput);
+
+        if (empty($barcodeInput)) {
+            return;
+        }
+
+        $obat = Obat::where('barcode', $barcodeInput)
+            ->where('stok', '>', 0)
+            ->first();
+
+        if (! $obat) {
+            Notification::make()
+                ->title('Barcode tidak ditemukan')
+                ->body("Barcode \"{$barcodeInput}\" tidak cocok dengan produk manapun.")
+                ->danger()
+                ->send();
+            return;
+        }
+
+        $this->addToCart($obat->id);
+    }
+
+    public function toggleCartDrawer(): void
+    {
+        $this->showCartDrawer = !$this->showCartDrawer;
     }
 
     public function updateQuantity(int $obatId, int $qty): void
@@ -215,7 +253,10 @@ class Kasir extends Page
                 ]);
 
                 if ($this->metodePembayaran === 'tunai') {
-                    Obat::where('id', $item['id'])->decrement('stok', $item['jumlah']);
+                    $obat = Obat::find($item['id']);
+                    if ($obat) {
+                        $obat->deductStockFEFO($item['jumlah']);
+                    }
                 }
             }
 
@@ -241,9 +282,8 @@ class Kasir extends Page
 
     public function getObatListProperty()
     {
-        // Hanya tampilkan obat dengan stok > 0 DAN tanggal kedaluwarsa lebih dari h-1 (misal, minimal lusa / > besok)
-        // Jadi, H-1 kedaluwarsa tidak akan muncul lagi
-        $query = Obat::with(['kategoriObat', 'supplier'])
+        // Hanya tampilkan obat dengan stok > 0 DAN tanggal kedaluwarsa lebih dari h-1
+        $query = Obat::with(['kategoriObat', 'supplier', 'penyakits'])
             ->where('stok', '>', 0)
             ->where('tanggal_kedaluwarsa', '>', now()->addDay()->endOfDay());
 
@@ -258,11 +298,22 @@ class Kasir extends Page
             $query->where('kategori_obat_id', $this->kategoriId);
         }
 
+        if (!empty($this->penyakitId)) {
+            $query->whereHas('penyakits', function ($q) {
+                $q->where('penyakits.id', $this->penyakitId);
+            });
+        }
+
         return $query->latest()->get();
     }
 
     public function getKategoriListProperty()
     {
         return KategoriObat::all();
+    }
+
+    public function getPenyakitListProperty()
+    {
+        return \App\Models\Penyakit::all();
     }
 }

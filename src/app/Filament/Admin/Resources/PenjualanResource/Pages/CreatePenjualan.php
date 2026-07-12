@@ -61,7 +61,10 @@ class CreatePenjualan extends CreateRecord
                         'harga'    => $item['harga'],
                         'subtotal' => $item['subtotal'],
                     ]);
-                    Obat::where('id', $item['obat_id'])->decrement('stok', $item['jumlah']);
+                    $obat = Obat::find($item['obat_id']);
+                    if ($obat) {
+                        $obat->deductStockFEFO($item['jumlah']);
+                    }
                 }
 
                 // Create pembayaran record

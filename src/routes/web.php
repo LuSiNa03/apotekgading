@@ -42,6 +42,10 @@ Route::middleware(['auth'])->group(function () {
         ->name('penjualan.midtrans-status');
     Route::post('/penjualan/{penjualan}/midtrans-update', [\App\Http\Controllers\MidtransController::class, 'updateStatus'])
         ->name('penjualan.midtrans-update');
+    Route::get('/obat/{obat}/print-barcode', function (\App\Models\Obat $obat) {
+        $svg = \App\Services\BarcodeGenerator::generateSVG($obat->barcode);
+        return view('print-barcode', compact('obat', 'svg'));
+    })->name('obat.print-barcode');
 });
 
 // Midtrans Webhook (tidak perlu autentikasi - CSRF dikecualikan)

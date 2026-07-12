@@ -109,8 +109,20 @@ class ObatMasukResource extends Resource
                                     ->label('Faktur Pembelian')
                                     ->directory('faktur-pembelian')
                                     ->acceptedFileTypes(['application/pdf', 'image/*'])
+                                    ->maxSize(4096)
+                                    ->required(),
+                            ]),
+                        Forms\Components\Grid::make(2)
+                            ->schema([
+                                Forms\Components\TextInput::make('nomor_batch')
+                                    ->label('Nomor Batch (Opsional)')
+                                    ->placeholder('Contoh: PCM24022029')
+                                    ->helperText('Kosongkan untuk auto-generate dari Kode Produk + Tanggal Expired. Contoh: PCM24022029'),
+                                Forms\Components\DatePicker::make('tanggal_kedaluwarsa')
+                                    ->label('Tanggal Kedaluwarsa')
                                     ->required()
-                                    ->maxSize(4096),
+                                    ->minDate(now()->toDateString())
+                                    ->placeholder('Pilih Tanggal Kedaluwarsa'),
                             ]),
                     ])
                     ->columns(1),
@@ -144,6 +156,16 @@ class ObatMasukResource extends Resource
                     ->label('Harga Beli')
                     ->money('IDR', locale: 'id')
                     ->sortable(),
+                Tables\Columns\TextColumn::make('nomor_batch')
+                    ->label('No. Batch')
+                    ->searchable()
+                    ->sortable()
+                    ->default('-'),
+                Tables\Columns\TextColumn::make('tanggal_kedaluwarsa')
+                    ->label('Kedaluwarsa')
+                    ->date('d M Y')
+                    ->sortable()
+                    ->default('-'),
                 Tables\Columns\TextColumn::make('tanggal_masuk')
                     ->label('Tanggal Masuk')
                     ->dateTime('d M Y H:i')

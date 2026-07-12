@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Obat extends Model
 {
@@ -17,6 +18,7 @@ class Obat extends Model
         'kategori_obat_id',
         'supplier_id',
         'nama_obat',
+        'kode_produk',
         'deskripsi',
         'barcode',
         'harga_beli',
@@ -37,6 +39,74 @@ class Obat extends Model
         'stok_minimum' => 'integer',
     ];
 
+    protected static function booted()
+    {
+        static::created(function ($obat) {
+            if ($obat->stok > 0) {
+                $obat->batches()->create([
+                    'nomor_batch' => 'BATCH-INITIAL',
+                    'tanggal_kedaluwarsa' => $obat->tanggal_kedaluwarsa ?? now()->addYear(),
+                    'harga_beli' => $obat->harga_beli,
+                    'quantity' => $obat->stok,
+                    'remaining_quantity' => $obat->stok,
+                ]);
+            }
+        });
+    }
+
+    public function batches(): HasMany
+    {
+        return $this->hasMany(ObatBatch::class, 'obat_id');
+    }
+
+    public function recalculateStockAndExpiry()
+    {
+        $batches = $this->batches()->where('remaining_quantity', '>', 0)->orderBy('tanggal_kedaluwarsa', 'asc')->get();
+        
+        if ($batches->isEmpty()) {
+            $earliestBatch = $this->batches()->orderBy('tanggal_kedaluwarsa', 'asc')->first();
+            $newExpiry = $earliestBatch ? $earliestBatch->tanggal_kedaluwarsa : $this->tanggal_kedaluwarsa;
+            $newStock = 0;
+        } else {
+            $newExpiry = $batches->first()->tanggal_kedaluwarsa;
+            $newStock = $batches->sum('remaining_quantity');
+        }
+
+        $this->update([
+            'stok' => $newStock,
+            'tanggal_kedaluwarsa' => $newExpiry,
+        ]);
+    }
+
+    public function deductStockFEFO(int $jumlah)
+    {
+        $remainingToDeduct = $jumlah;
+        
+        $batches = $this->batches()
+            ->where('remaining_quantity', '>', 0)
+            ->orderBy('tanggal_kedaluwarsa', 'asc')
+            ->orderBy('id', 'asc')
+            ->get();
+
+        foreach ($batches as $batch) {
+            if ($remainingToDeduct <= 0) {
+                break;
+            }
+
+            if ($batch->remaining_quantity >= $remainingToDeduct) {
+                $batch->decrement('remaining_quantity', $remainingToDeduct);
+                $remainingToDeduct = 0;
+            } else {
+                $remainingToDeduct -= $batch->remaining_quantity;
+                $batch->update(['remaining_quantity' => 0]);
+            }
+        }
+
+        $this->recalculateStockAndExpiry();
+
+        return $remainingToDeduct == 0;
+    }
+
     public function kategoriObat(): BelongsTo
     {
         return $this->belongsTo(KategoriObat::class, 'kategori_obat_id');
@@ -56,4 +126,10 @@ class Obat extends Model
     {
         return $this->hasMany(DetailPenjualan::class, 'obat_id');
     }
+
+    public function penyakits(): BelongsToMany
+    {
+        return $this->belongsToMany(Penyakit::class, 'obat_penyakit', 'obat_id', 'penyakit_id');
+    }
 }
+

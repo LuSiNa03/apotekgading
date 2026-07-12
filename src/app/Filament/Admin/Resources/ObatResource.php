@@ -45,6 +45,14 @@ class ObatResource extends Resource
                                     ->placeholder('Paracetamol 500mg')
                                     ->maxLength(255)
                                     ->columnSpanFull(),
+                                Forms\Components\TextInput::make('kode_produk')
+                                    ->label('Kode Produk (Opsional)')
+                                    ->placeholder('PCM')
+                                    ->helperText('Contoh: PCM, AMX, OBH. Digunakan untuk auto-generate Nomor Batch.')
+                                    ->unique(ignoreRecord: true)
+                                    ->maxLength(20)
+                                    ->afterStateUpdated(fn ($state, Forms\Set $set) => $state ? $set('kode_produk', strtoupper($state)) : null)
+                                    ->live(debounce: 500),
                                 Forms\Components\Select::make('kategori_obat_id')
                                     ->label('Kategori Obat')
                                     ->relationship('kategoriObat', 'nama_kategori')
@@ -66,6 +74,56 @@ class ObatResource extends Resource
                             ->rows(3)
                             ->maxLength(1000)
                             ->columnSpanFull(),
+                        Forms\Components\Select::make('penyakits')
+                            ->label('Penyakit yang dapat diobati')
+                            ->multiple()
+                            ->relationship('penyakits', 'nama_penyakit')
+                            ->preload()
+                            ->searchable()
+                            ->createOptionForm([
+                                Forms\Components\TextInput::make('nama_penyakit')
+                                    ->label('Nama Penyakit')
+                                    ->required()
+                                    ->unique('penyakits', 'nama_penyakit')
+                                    ->placeholder('Contoh: Demam, Flu, Batuk'),
+                            ])
+                            ->createOptionUsing(function (array $data): int {
+                                $penyakit = \App\Models\Penyakit::create($data);
+                                return $penyakit->id;
+                            })
+                            ->editOptionForm([
+                                Forms\Components\TextInput::make('nama_penyakit')
+                                    ->label('Nama Penyakit')
+                                    ->required()
+                                    ->unique('penyakits', 'nama_penyakit', ignoreRecord: true)
+                                    ->placeholder('Contoh: Demam, Flu, Batuk'),
+                            ])
+                            ->suffixActions([
+                                Forms\Components\Actions\Action::make('deletePenyakit')
+                                    ->icon('heroicon-o-trash')
+                                    ->color('danger')
+                                    ->tooltip('Hapus Penyakit dari Sistem')
+                                    ->form([
+                                        Forms\Components\Select::make('penyakit_id')
+                                            ->label('Pilih Penyakit yang akan Dihapus Permanen')
+                                            ->options(fn() => \App\Models\Penyakit::pluck('nama_penyakit', 'id'))
+                                            ->required()
+                                            ->searchable()
+                                    ])
+                                    ->action(function (array $data) {
+                                        $penyakit = \App\Models\Penyakit::find($data['penyakit_id']);
+                                        if ($penyakit) {
+                                            $penyakit->delete();
+                                            \Filament\Notifications\Notification::make()
+                                                ->title('Penyakit berhasil dihapus dari sistem')
+                                                ->success()
+                                                ->send();
+                                        }
+                                    })
+                                    ->visible(fn() => auth()->user()?->hasRole(['super_admin', 'pemilik_apotek'])),
+                            ])
+                            ->disabled(fn() => !auth()->user()?->hasRole(['super_admin', 'pemilik_apotek']))
+                            ->columnSpanFull(),
                         Forms\Components\Grid::make(3)
                             ->schema([
                                 Forms\Components\TextInput::make('barcode')
@@ -77,13 +135,33 @@ class ObatResource extends Resource
                                     ->label('Tanggal Kedaluwarsa')
                                     ->required()
                                     ->placeholder('Pilih Tanggal')
-                                    ->minDate(now()->toDateString()),
+                                    ->minDate(now()->toDateString())
+                                    ->disabled(fn ($context) => $context === 'edit')
+                                    ->dehydrated(),
                                 Forms\Components\FileUpload::make('foto')
                                     ->label('Foto Obat (Opsional)')
                                     ->image()
                                     ->directory('foto-obat')
                                     ->maxSize(2048),
                             ]),
+                        Forms\Components\Grid::make(2)
+                            ->schema([
+                                Forms\Components\Placeholder::make('barcode_preview')
+                                    ->label('Barcode Preview')
+                                    ->content(fn ($record) => $record && $record->barcode ? new \Illuminate\Support\HtmlString(\App\Services\BarcodeGenerator::generateSVG($record->barcode)) : 'Barcode akan di-generate otomatis jika dikosongkan')
+                                    ->visible(fn ($context) => $context === 'edit'),
+                                Forms\Components\Actions::make([
+                                    Forms\Components\Actions\Action::make('printBarcode')
+                                        ->label('Cetak Barcode')
+                                        ->icon('heroicon-o-printer')
+                                        ->color('emerald')
+                                        ->url(fn ($record) => $record ? route('obat.print-barcode', $record) : null)
+                                        ->openUrlInNewTab()
+                                        ->visible(fn ($record) => $record && $record->barcode),
+                                ])
+                                ->visible(fn ($context) => $context === 'edit'),
+                            ])
+                            ->visible(fn ($context) => $context === 'edit'),
                     ]),
 
                 Forms\Components\Section::make('Keuangan & Stok')
@@ -120,7 +198,9 @@ class ObatResource extends Resource
                                     ->numeric()
                                     ->default(0)
                                     ->placeholder('0')
-                                    ->minValue(0),
+                                    ->minValue(0)
+                                    ->disabled(fn ($context) => $context === 'edit')
+                                    ->dehydrated(),
                                 Forms\Components\TextInput::make('stok_minimum')
                                     ->label('Batas Stok Minimum')
                                     ->required()
@@ -145,6 +225,12 @@ class ObatResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->weight('bold'),
+                Tables\Columns\TextColumn::make('kode_produk')
+                    ->label('Kode Produk')
+                    ->searchable()
+                    ->default('-')
+                    ->badge()
+                    ->color('info'),
                 Tables\Columns\TextColumn::make('kategoriObat.nama_kategori')
                     ->label('Kategori')
                     ->searchable()
@@ -235,7 +321,7 @@ class ObatResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\BatchesRelationManager::class,
         ];
     }
 

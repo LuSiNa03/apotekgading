@@ -18,28 +18,24 @@
         <div class="lg:col-span-2 space-y-4">
 
             <!-- ═══ SEARCH BAR ═══ -->
-            <div class="relative">
-                {{-- Ikon kaca pembesar bergeser ke kanan 3 spasi (pl-7) --}}
-                <span class="absolute inset-y-0 left-7 flex items-center pointer-events-none">
-                    <x-heroicon-o-magnifying-glass class="w-5 h-5 text-gray-400" />
-                </span>
-                {{-- input pl-16 untuk memberikan ruang kosong 3 spasi sebelum tulisan "Cari nama obat..." --}}
+            <div class="relative mb-6">
                 <input
                     type="text"
-                    placeholder="   Cari nama obat..."
+                    placeholder="Cari nama obat..."
                     wire:model.live.debounce.300ms="search"
-                    class="w-full pl-16 pr-4 py-3 rounded-2xl
+                    class="w-full pl-4 pr-4 py-3 rounded-2xl
                            border border-gray-200 dark:border-gray-700
                            bg-white dark:bg-gray-800
                            text-gray-800 dark:text-gray-100
-                           placeholder-gray-400
+                           placeholder-gray-400 dark:placeholder-gray-500
                            shadow-sm
+                           caret-emerald-500 dark:caret-emerald-450
                            focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent
                            transition-all duration-200"
                 />
             </div>
 
-            <!-- ═══ FILTER KATEGORI (Dimasukkan ke dalam wadah kartu kategori dengan ujung tumpul) ═══ -->
+            <!-- ═══ FILTER KATEGORI ═══ -->
             <div class="bg-white dark:bg-gray-800 p-4 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm space-y-2">
                 <p class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
                     Kategori Obat
@@ -73,6 +69,43 @@
                     @endforeach
                 </div>
             </div>
+
+            <!-- ═══ FILTER PENYAKIT ═══ -->
+            @if($this->penyakitList->isNotEmpty())
+            <div class="bg-white dark:bg-gray-800 p-4 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm space-y-2">
+                <p class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+                    Filter Penyakit
+                </p>
+                <div class="flex flex-wrap items-center gap-2">
+                    {{-- Semua Penyakit --}}
+                    <button
+                        type="button"
+                        wire:click="$set('penyakitId', '')"
+                        @class([
+                            'inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold border transition-all duration-200 shadow-sm text-gray-800 dark:text-gray-900',
+                            'bg-gray-200 border-gray-300'                    => $penyakitId === '',
+                            'bg-gray-50 border-gray-200 hover:bg-gray-100'   => $penyakitId !== '',
+                        ])
+                    >
+                        Semua Penyakit
+                    </button>
+
+                    @foreach ($this->penyakitList as $peny)
+                        <button
+                            type="button"
+                            wire:click="$set('penyakitId', {{ $peny->id }})"
+                            @class([
+                                'inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold border transition-all duration-200 shadow-sm text-gray-800 dark:text-gray-900',
+                                'bg-gray-200 border-gray-300'                    => $penyakitId == $peny->id,
+                                'bg-gray-50 border-gray-200 hover:bg-gray-100'   => $penyakitId != $peny->id,
+                            ])
+                        >
+                            {{ $peny->nama_penyakit }}
+                        </button>
+                    @endforeach
+                </div>
+            </div>
+            @endif
 
             <!-- ═══ GRID PRODUK ═══ -->
             <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -109,7 +142,7 @@
                         };
                     @endphp
 
-                    {{-- ── KARTU MENU (Mengikuti Referensi Desain Kasar) ── --}}
+                    {{-- ── KARTU MENU ── --}}
                     <div
                         wire:click="addToCart({{ $obat->id }})"
                         class="group flex flex-col h-full bg-white dark:bg-gray-800
@@ -166,8 +199,7 @@
                             </div>
                         </div>{{-- /gambar --}}
 
-                        {{-- ② INFO BAWAH (Mengikuti struktur sketsa referensi kasar) --}}
-                        {{-- Load Google Font Poppins dan styling font spesifik --}}
+                        {{-- ② INFO BAWAH --}}
                         <style>
                             @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
                             .font-poppins {
@@ -178,7 +210,7 @@
 
                             {{-- Wadah Info Obat (Nama, Kategori, Supplier, Exp) --}}
                             <div class="space-y-2">
-                                {{-- Nama Obat: warna hitam pekat, ukuran 18px BOLD, dengan Badge Jumlah Keranjang di Sampingnya --}}
+                                {{-- Nama Obat --}}
                                 <div class="flex items-center justify-between gap-2">
                                     <h3 class="font-bold text-gray-900 dark:text-white leading-snug line-clamp-2" style="font-size: 18px; color: #111827;">
                                         {{ $obat->nama_obat }}
@@ -191,7 +223,7 @@
                                     @endif
                                 </div>
 
-                                {{-- Meta Info Detail (Kategori, Supplier, Exp): warna hitam pekat, ukuran 14px BOLD --}}
+                                {{-- Meta Info Detail --}}
                                 <div class="space-y-1 font-bold leading-relaxed dark:text-gray-200" style="font-size: 14px; color: #1f2937;">
                                     <div>Kategori : {{ $obat->kategoriObat?->nama_kategori ?? '-' }}</div>
                                     <div>Supplier : {{ $obat->supplier?->nama_supplier ?? '-' }}</div>
@@ -199,12 +231,26 @@
                                         exp : {{ $obat->tanggal_kedaluwarsa?->format('d M Y') ?? '-' }}
                                     </div>
                                 </div>
+
+                                {{-- Chip Penyakit --}}
+                                @if($obat->penyakits->isNotEmpty())
+                                    <div class="flex flex-wrap gap-1 pt-1">
+                                        @foreach($obat->penyakits as $peny)
+                                            <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-bold
+                                                         bg-emerald-100 text-emerald-700
+                                                         dark:bg-emerald-950/40 dark:text-emerald-400
+                                                         border border-emerald-200 dark:border-emerald-800">
+                                                {{ $peny->nama_penyakit }}
+                                            </span>
+                                        @endforeach
+                                    </div>
+                                @endif
                             </div>
 
                             {{-- Divider --}}
                             <div class="border-t border-emerald-100 dark:border-gray-700"></div>
 
-                            {{-- Wadah Deskripsi: warna hitam pekat, ukuran 12px NORMAL --}}
+                            {{-- Wadah Deskripsi --}}
                             <div class="h-[90px] overflow-y-auto scrollbar-none pr-1">
                                 @if($obat->deskripsi)
                                     <p class="leading-relaxed font-normal text-justify dark:text-gray-300" style="font-size: 12px; color: #4b5563;">
@@ -237,7 +283,7 @@
                         <x-heroicon-o-magnifying-glass class="w-16 h-16 mx-auto mb-3 text-gray-300 dark:text-gray-600" />
                         <h4 class="font-bold text-gray-800 dark:text-gray-200">Obat Tidak Ditemukan</h4>
                         <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">
-                            Coba ubah kata kunci pencarian atau pilih kategori lain.
+                            Coba ubah kata kunci pencarian atau pilih kategori / penyakit lain.
                         </p>
                     </div>
                 @endforelse

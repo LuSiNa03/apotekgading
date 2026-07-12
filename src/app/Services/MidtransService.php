@@ -112,7 +112,10 @@ class MidtransService
 
             if ($status === 'berhasil' && $previousStatus !== 'berhasil') {
                 foreach ($penjualan->detailPenjualans as $detail) {
-                    Obat::where('id', $detail->obat_id)->decrement('stok', $detail->jumlah);
+                     $obat = Obat::find($detail->obat_id);
+                     if ($obat) {
+                         $obat->deductStockFEFO($detail->jumlah);
+                     }
                 }
                 Log::info('Midtrans: Stock decremented', ['order_id' => $penjualan->kode_transaksi]);
             }
