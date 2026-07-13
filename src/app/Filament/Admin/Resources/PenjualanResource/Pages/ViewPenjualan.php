@@ -18,6 +18,8 @@ class ViewPenjualan extends ViewRecord
         $record = $this->getRecord();
         $actions = [];
 
+        $actions[] = Actions\DeleteAction::make();
+
         if ($record->metode_pembayaran === 'non-tunai' && $record->status_pembayaran === 'pending') {
             $actions[] = Actions\Action::make('bayar_midtrans')
                 ->label('Bayar dengan Midtrans')

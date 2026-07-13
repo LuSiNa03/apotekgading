@@ -239,6 +239,7 @@ class PenjualanResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
+                Tables\Actions\DeleteAction::make(),
                 Tables\Actions\Action::make('bayar')
                     ->label('Bayar')
                     ->icon('heroicon-o-credit-card')
@@ -254,7 +255,9 @@ class PenjualanResource extends Resource
                     ->visible(fn (Penjualan $record) => $record->status_pembayaran === 'berhasil'),
             ])
             ->bulkActions([
-                // disabled
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]),
             ])
             ->emptyStateHeading('Belum Ada Transaksi Penjualan')
             ->emptyStateDescription('Silakan buat transaksi baru.')

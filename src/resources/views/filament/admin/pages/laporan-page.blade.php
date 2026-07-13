@@ -31,7 +31,7 @@
 
                 @if (count($data_laporan) === 0)
                     <div class="flex flex-col items-center justify-center py-12 text-gray-400">
-                        <x-heroicon-o-document-magnifying-glass class="w-12 h-12 mb-3"/>
+                        @svg('heroicon-o-document-magnifying-glass', 'w-12 h-12 mb-3')
                         <p class="text-lg font-medium">Tidak ada data untuk periode ini</p>
                         <p class="text-sm">Coba ubah filter tanggal atau jenis laporan</p>
                     </div>

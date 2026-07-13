@@ -4,6 +4,19 @@ namespace App\Providers;
 
 use App\Observers\RoleObserver;
 use App\Policies\ActivityPolicy;
+use App\Policies\KategoriObatPolicy;
+use App\Policies\ObatMasukPolicy;
+use App\Policies\ObatPolicy;
+use App\Policies\PenjualanPolicy;
+use App\Policies\RolePolicy;
+use App\Policies\SupplierPolicy;
+use App\Policies\UserPolicy;
+use App\Models\KategoriObat;
+use App\Models\ObatMasuk;
+use App\Models\Obat;
+use App\Models\Penjualan;
+use App\Models\Supplier;
+use App\Models\User;
 use Filament\Actions\MountableAction;
 use Filament\Notifications\Livewire\Notifications;
 use Filament\Notifications\Notification;
@@ -36,6 +49,13 @@ class AppServiceProvider extends ServiceProvider
         Role::observe(RoleObserver::class);
 
         Gate::policy(Activity::class, ActivityPolicy::class);
+        Gate::policy(Penjualan::class, PenjualanPolicy::class);
+        Gate::policy(Obat::class, ObatPolicy::class);
+        Gate::policy(KategoriObat::class, KategoriObatPolicy::class);
+        Gate::policy(ObatMasuk::class, ObatMasukPolicy::class);
+        Gate::policy(Supplier::class, SupplierPolicy::class);
+        Gate::policy(User::class, UserPolicy::class);
+        Gate::policy(Role::class, RolePolicy::class);
         Page::formActionsAlignment(Alignment::Right);
         Notifications::alignment(Alignment::End);
         Notifications::verticalAlignment(VerticalAlignment::End);

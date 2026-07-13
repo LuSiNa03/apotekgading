@@ -19,7 +19,7 @@ class HampirKedaluwarsaWidget extends BaseWidget
         return auth()->user() && auth()->user()->can('view_any_obat');
     }
 
-    protected static ?string $heading = '⚠️ Obat Hampir Kedaluwarsa (< 30 Hari)';
+    protected static ?string $heading = '⚠️ Obat Hampir Kedaluwarsa (Kurang Dari 30 Hari)';
 
     protected static ?int $sort = 2;
 

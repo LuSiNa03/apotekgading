@@ -280,7 +280,7 @@
                 @empty
                     <div class="col-span-full bg-white dark:bg-gray-800 p-12 rounded-2xl
                                 border border-gray-100 dark:border-gray-700 text-center">
-                        <x-heroicon-o-magnifying-glass class="w-16 h-16 mx-auto mb-3 text-gray-300 dark:text-gray-600" />
+                        @svg('heroicon-o-magnifying-glass', 'w-16 h-16 mx-auto mb-3 text-gray-300 dark:text-gray-600')
                         <h4 class="font-bold text-gray-800 dark:text-gray-200">Obat Tidak Ditemukan</h4>
                         <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">
                             Coba ubah kata kunci pencarian atau pilih kategori / penyakit lain.
@@ -295,7 +295,7 @@
         <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 space-y-6 self-start sticky top-6">
             <div class="flex items-center justify-between border-b pb-4 dark:border-gray-700">
                 <h2 class="font-bold text-base flex items-center gap-2">
-                    <x-heroicon-o-shopping-cart class="w-5 h-5 text-emerald-500" />
+                    @svg('heroicon-o-shopping-cart', 'w-5 h-5 text-emerald-500')
                     <span>Keranjang Pesanan</span>
                 </h2>
                 <button type="button" wire:click="clearCart" class="text-xs font-bold text-red-500 hover:text-red-700 transition">
@@ -329,12 +329,12 @@
 
                         <!-- Trash Button -->
                         <button type="button" wire:click="removeFromCart({{ $id }})" class="p-1.5 rounded-lg text-gray-400 hover:text-red-650 transition">
-                            <x-heroicon-o-trash class="w-4 h-4" />
+                            @svg('heroicon-o-trash', 'w-4 h-4')
                         </button>
                     </div>
                 @empty
                     <div class="text-center py-12 text-gray-400">
-                        <x-heroicon-o-shopping-bag class="w-14 h-14 mx-auto mb-2 text-gray-300 dark:text-gray-600" />
+                        @svg('heroicon-o-shopping-bag', 'w-14 h-14 mx-auto mb-2 text-gray-300 dark:text-gray-600')
                         <p class="text-xs font-semibold">Pesanan masih kosong</p>
                     </div>
                 @endforelse
@@ -406,15 +406,23 @@
     @if ($showSuccessModal && $lastPenjualanId)
         @php
             $penjualan = \App\Models\Penjualan::find($lastPenjualanId);
+            $isPending = $penjualan && $penjualan->status_pembayaran === 'pending';
         @endphp
         @if ($penjualan)
             <div class="fixed inset-0 z-50 overflow-y-auto bg-gray-900/60 backdrop-blur-sm flex items-center justify-center p-4">
                 <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-100 dark:border-gray-700 w-full max-w-md p-6 space-y-6 transform transition-all duration-300 scale-100">
                     <div class="text-center space-y-2">
-                        <div class="w-14 h-14 bg-emerald-100 dark:bg-emerald-950/30 rounded-full flex items-center justify-center mx-auto text-emerald-600 dark:text-emerald-400">
-                            <x-heroicon-o-check class="w-8 h-8" />
-                        </div>
-                        <h3 class="text-lg font-extrabold text-gray-800 dark:text-gray-100">Transaksi Berhasil!</h3>
+                        @if ($isPending)
+                            <div class="w-14 h-14 bg-yellow-100 dark:bg-yellow-950/30 rounded-full flex items-center justify-center mx-auto text-yellow-600 dark:text-yellow-400">
+                                @svg('heroicon-o-clock', 'w-8 h-8 animate-pulse')
+                            </div>
+                            <h3 class="text-lg font-extrabold text-gray-800 dark:text-gray-100">Menunggu Pembayaran...</h3>
+                        @else
+                            <div class="w-14 h-14 bg-emerald-100 dark:bg-emerald-950/30 rounded-full flex items-center justify-center mx-auto text-emerald-600 dark:text-emerald-400">
+                                @svg('heroicon-o-check', 'w-8 h-8')
+                            </div>
+                            <h3 class="text-lg font-extrabold text-gray-800 dark:text-gray-100">Transaksi Berhasil!</h3>
+                        @endif
                         <p class="text-xs text-gray-400 font-mono">{{ $penjualan->kode_transaksi }}</p>
                     </div>
 
@@ -426,6 +434,10 @@
                         <div class="flex justify-between">
                             <span class="text-gray-500">Metode Pembayaran</span>
                             <span class="font-bold uppercase text-emerald-600 dark:text-emerald-400">{{ $penjualan->metode_pembayaran }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Status Pembayaran</span>
+                            <span class="font-bold uppercase @if($penjualan->status_pembayaran === 'berhasil') text-emerald-600 dark:text-emerald-400 @else text-yellow-600 dark:text-yellow-400 @endif">{{ $penjualan->status_pembayaran }}</span>
                         </div>
                         @if ($penjualan->metode_pembayaran === 'tunai')
                             <div class="flex justify-between">
@@ -439,29 +451,99 @@
                         @endif
                     </div>
 
-                    <div class="flex flex-col sm:flex-row gap-3">
-                        <x-filament::button
-                            tag="a"
-                            href="{{ route('penjualan.struk', $penjualan) }}"
-                            target="_blank"
-                            color="gray"
-                            icon="heroicon-o-printer"
-                            class="flex-1 rounded-xl"
-                        >
-                            Cetak Struk
-                        </x-filament::button>
+                    <div class="flex flex-col gap-2">
+                        @if ($isPending && $snapToken)
+                            <button
+                                type="button"
+                                onclick="openMidtransSnapToken('{{ $snapToken }}')"
+                                class="w-full py-2.5 rounded-xl bg-amber-500 text-white font-bold hover:bg-amber-600 transition flex items-center justify-center gap-2"
+                            >
+                                @svg('heroicon-o-credit-card', 'w-5 h-5')
+                                Bayar Sekarang
+                            </button>
 
-                        <x-filament::button
-                            type="button"
-                            wire:click="$set('showSuccessModal', false)"
-                            color="primary"
-                            class="flex-1 rounded-xl"
-                        >
-                            Selesai
-                        </x-filament::button>
+                            <button
+                                type="button"
+                                wire:click="verifyPaymentStatus"
+                                class="w-full py-2.5 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-700 transition flex items-center justify-center gap-2"
+                            >
+                                @svg('heroicon-o-arrow-path', 'w-5 h-5 animate-spin-slow')
+                                Cek Status Pembayaran
+                            </button>
+                        @endif
+
+                        <div class="flex gap-3 mt-2">
+                            <x-filament::button
+                                tag="a"
+                                href="{{ route('penjualan.struk', $penjualan) }}"
+                                target="_blank"
+                                color="gray"
+                                icon="heroicon-o-printer"
+                                class="flex-1 rounded-xl"
+                                :disabled="$isPending"
+                            >
+                                Cetak Struk
+                            </x-filament::button>
+
+                            <x-filament::button
+                                type="button"
+                                wire:click="$set('showSuccessModal', false)"
+                                color="primary"
+                                class="flex-1 rounded-xl"
+                            >
+                                Selesai
+                            </x-filament::button>
+                        </div>
                     </div>
                 </div>
             </div>
         @endif
     @endif
+
+    @php
+        $snapUrl = $this->isMidtransProduction()
+            ? 'https://app.midtrans.com/snap/snap.js'
+            : 'https://app.sandbox.midtrans.com/snap/snap.js';
+    @endphp
+    <script src="{{ $snapUrl }}" data-client-key="{{ $this->getMidtransClientKey() }}"></script>
+    <script>
+        document.addEventListener('livewire:init', () => {
+            Livewire.on('trigger-snap-pay', (event) => {
+                const token = event.snapToken;
+                if (!token) return;
+                
+                window.snap.pay(token, {
+                    onSuccess: function(result) {
+                        @this.verifyPaymentStatus();
+                    },
+                    onPending: function(result) {
+                        @this.verifyPaymentStatus();
+                    },
+                    onError: function(result) {
+                        @this.verifyPaymentStatus();
+                    },
+                    onClose: function() {
+                        // user closed popup
+                    }
+                });
+            });
+        });
+
+        function openMidtransSnapToken(token) {
+            if (!token) return;
+            window.snap.pay(token, {
+                onSuccess: function(result) {
+                    @this.verifyPaymentStatus();
+                },
+                onPending: function(result) {
+                    @this.verifyPaymentStatus();
+                },
+                onError: function(result) {
+                    @this.verifyPaymentStatus();
+                },
+                onClose: function() {
+                }
+            });
+        }
+    </script>
 </x-filament-panels::page>

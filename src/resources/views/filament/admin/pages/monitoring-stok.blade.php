@@ -16,7 +16,7 @@
             </x-filament::section>
 
             <x-filament::section>
-                <x-slot name="heading">Kedaluwarsa < 30 Hari</x-slot>
+                <x-slot name="heading">Kedaluwarsa Kurang Dari 30 Hari</x-slot>
                 <p class="text-3xl font-extrabold text-red-600">
                     {{ \App\Models\Obat::where('tanggal_kedaluwarsa', '<=', now()->addDays(30))->count() }}
                 </p>

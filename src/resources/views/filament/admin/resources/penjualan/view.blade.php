@@ -4,7 +4,7 @@
             <x-filament::section>
                 <x-slot name="heading">
                     <div class="flex items-center gap-2">
-                        <x-heroicon-o-credit-card class="w-5 h-5 text-warning-500" />
+                        @svg('heroicon-o-credit-card', 'w-5 h-5 text-warning-500')
                         <span>Pembayaran Midtrans</span>
                     </div>
                 </x-slot>

@@ -10,6 +10,7 @@ use App\Traits\HasLockedPageNavigation;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Url;
 
 class Kasir extends Page
@@ -53,6 +54,7 @@ class Kasir extends Page
     // Invoice created state
     public $lastPenjualanId = null;
     public $showSuccessModal = false;
+    public $snapToken = null;
 
     public function mount(): void
     {
@@ -66,6 +68,7 @@ class Kasir extends Page
         $this->nominalBayar = 0;
         $this->kembalian = 0;
         $this->metodePembayaran = 'tunai';
+        $this->snapToken = null;
     }
 
     public function updatedNominalBayar($value): void
@@ -209,6 +212,53 @@ class Kasir extends Page
         $this->resetPayment();
     }
 
+    public function getMidtransClientKey(): string
+    {
+        return (string) config('midtrans.client_key');
+    }
+
+    public function isMidtransProduction(): bool
+    {
+        return (bool) config('midtrans.is_production');
+    }
+
+    public function verifyPaymentStatus(): void
+    {
+        if (!$this->lastPenjualanId) {
+            return;
+        }
+
+        $penjualan = Penjualan::find($this->lastPenjualanId);
+        if (!$penjualan) {
+            return;
+        }
+
+        try {
+            $service = app(MidtransService::class);
+            $midtransStatus = $service->checkStatus($penjualan->kode_transaksi);
+            $service->handleCallback($midtransStatus);
+
+            $penjualan->refresh();
+
+            if ($penjualan->status_pembayaran === 'berhasil') {
+                Notification::make()
+                    ->title('Pembayaran Berhasil Terverifikasi')
+                    ->success()
+                    ->send();
+            } else {
+                Notification::make()
+                    ->title('Status Pembayaran: ' . strtoupper($penjualan->status_pembayaran))
+                    ->warning()
+                    ->send();
+            }
+        } catch (\Exception $e) {
+            Notification::make()
+                ->title('Gagal verifikasi pembayaran: ' . $e->getMessage())
+                ->danger()
+                ->send();
+        }
+    }
+
     public function submitOrder()
     {
         if (empty($this->cart)) {
@@ -221,13 +271,13 @@ class Kasir extends Page
             return;
         }
 
-        return DB::transaction(function () {
+        $penjualan = DB::transaction(function () {
             // Validasi stok ulang untuk menghindari race condition
             foreach ($this->cart as $item) {
                 $obat = Obat::lockForUpdate()->find($item['id']);
                 if (!$obat || $obat->stok < $item['jumlah']) {
                     Notification::make()->title('Stok tidak cukup untuk ' . ($obat?->nama_obat ?? 'obat'))->danger()->send();
-                    return;
+                    throw new \Exception('Stok tidak cukup untuk ' . ($obat?->nama_obat ?? 'obat'));
                 }
             }
 
@@ -266,18 +316,36 @@ class Kasir extends Page
                 'nomor_referensi' => $this->metodePembayaran === 'tunai' ? $kodeTransaksi : null,
             ]);
 
-            $this->lastPenjualanId = $penjualan->id;
-            $this->showSuccessModal = true;
-
-            $this->cart = [];
-            $this->totalHarga = 0;
-            cache()->forget('pos_cart_' . auth()->id());
-            $this->resetPayment();
-
-            Notification::make()->title('Transaksi berhasil dicatat')->success()->send();
-
             return $penjualan;
         });
+
+        $this->lastPenjualanId = $penjualan->id;
+        $this->showSuccessModal = true;
+
+        if ($this->metodePembayaran === 'non-tunai') {
+            try {
+                $midtransService = app(MidtransService::class);
+                $this->snapToken = $midtransService->createSnapToken($penjualan);
+                $this->dispatch('trigger-snap-pay', snapToken: $this->snapToken);
+            } catch (\Exception $e) {
+                Log::error('POS Midtrans Error: ' . $e->getMessage());
+                Notification::make()->title('Gagal menghubungkan ke Midtrans: ' . $e->getMessage())->danger()->send();
+            }
+        }
+
+        $this->cart = [];
+        $this->totalHarga = 0;
+        cache()->forget('pos_cart_' . auth()->id());
+        
+        $isNonTunai = $this->metodePembayaran === 'non-tunai';
+        $this->resetPayment();
+        if ($isNonTunai) {
+            $this->metodePembayaran = 'non-tunai';
+        }
+
+        Notification::make()->title('Transaksi berhasil dicatat')->success()->send();
+
+        return $penjualan;
     }
 
     public function getObatListProperty()
