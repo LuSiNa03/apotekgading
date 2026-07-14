@@ -10,3 +10,5 @@ src/node_modules/
 # Environment files
 .env
 src/.env
+*.pem
+*:Zone.Identifier
