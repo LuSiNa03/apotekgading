@@ -509,8 +509,15 @@
     <script>
         document.addEventListener('livewire:init', () => {
             Livewire.on('trigger-snap-pay', (event) => {
-                const token = event.snapToken;
-                if (!token) return;
+                // Handle Livewire 3 event payload array or object
+                let token = null;
+                if (Array.isArray(event) && event.length > 0) {
+                    token = event[0].snapToken || event[0];
+                } else if (event) {
+                    token = event.snapToken || event;
+                }
+                
+                if (!token || typeof token !== 'string') return;
                 
                 window.snap.pay(token, {
                     onSuccess: function(result) {

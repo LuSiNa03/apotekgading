@@ -75,7 +75,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
         }
 
         if ($panelId === 'petugas') {
-            return $this->hasAnyRole(['petugas_apotek', 'super_admin']);
+            return $this->hasRole('petugas_apotek');
         }
 
         return false;

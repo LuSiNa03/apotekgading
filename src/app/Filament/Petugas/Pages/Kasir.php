@@ -338,9 +338,11 @@ class Kasir extends Page
         cache()->forget('pos_cart_' . auth()->id());
         
         $isNonTunai = $this->metodePembayaran === 'non-tunai';
-        $this->resetPayment();
         if ($isNonTunai) {
-            $this->metodePembayaran = 'non-tunai';
+            $this->nominalBayar = 0;
+            $this->kembalian = 0;
+        } else {
+            $this->resetPayment();
         }
 
         Notification::make()->title('Transaksi berhasil dicatat')->success()->send();
