@@ -269,17 +269,7 @@ Setelah sertifikat terpasang, restart Docker atau layanan Nginx yang digunakan.
 - `https://menamu.my.id` mengarah ke aplikasi Apotek Gading
 - `https://fadhil.menamu.my.id` mengarah ke portfolio Laravel
 
----
 
-## Screenshot
-
-> Tampilan aplikasi Apotek Gading akan ditampilkan di sini.
-
-Silakan ganti placeholder dengan file screenshot nyata dari aplikasi. Contoh:
-
-```markdown
-![Tampilan Apotek Gading](./assets/apotekgading-screenshot.png)
-```
 
 ---
 
